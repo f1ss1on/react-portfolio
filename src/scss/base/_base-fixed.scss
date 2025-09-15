@@ -1,0 +1,109 @@
+/*!
+ * Partial: _base.scss
+ * Purpose: Base styles for HTML, body, layout containers, header, and footer.
+ * Features: Resets, typography, layout wrappers, responsive design, site-wide backgrounds.
+ * Usage: Import first in style.scss to set up global styles and layout structure.
+ * Dependencies: Uses variables from _variables.scss.
+ * Last updated: 2025-09-11
+ */
+
+@use "../abstracts/variables" as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  overflow-x: hidden;
+}
+body {
+  background: url(../assets/images/bodyBG.gif) repeat center top !important;
+  margin: 0;
+  color: #333;
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  &::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at 60% 20%,
+        rgba($accent, 0.09) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse at 20% 80%,
+        rgba($primary, 0.13) 0%,
+        transparent 70%
+      );
+    animation: bgMove 12s linear infinite alternate;
+  }
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  @media (max-width: 900px) {
+    padding: 16px;
+  }
+  @media (max-width: 600px) {
+    padding: 8px;
+  }
+  h2 {
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    color: #333;
+    // Typography handled by _typography.scss
+  }
+  .btn {
+    background-color: #2b72c9;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 12px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background 0.3s ease;
+    &:hover {
+      background: #217dbb;
+    }
+  }
+}
+@keyframes bgMove {
+  0% {
+    background-position: 60% 20%, 20% 80%;
+  }
+  100% {
+    background-position: 65% 25%, 25% 85%;
+  }
+}
+//Site Wrapper
+.site-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  // Optional: Prevent horizontal scroll on mobile
+  @media (max-width: 900px) {
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+#main-content {
+  opacity: 1;
+  transition: opacity 0.3s;
+}

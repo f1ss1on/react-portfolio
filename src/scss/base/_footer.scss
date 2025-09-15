@@ -1,0 +1,376 @@
+/*!
+ * Partial: _footer.scss
+ * Purpose: Footer styles for site-wide layout, branding, navigation, and contact info.
+ * Features: Responsive footer, branding, navigation, contact, social links, gradients, overlays.
+ * Usage: Import in style.scss for global footer styles.
+ * Dependencies: Uses variables and mixins from abstracts.
+ * Last updated: 2025-09-11
+ */
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Footer
+.site-footer {
+  color: $text-muted;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 40px 0;
+  box-shadow: 
+    0 -12px 40px rgba(0, 0, 0, 0.15),
+    0 -4px 20px rgba(142, 36, 170, 0.1);
+  position: relative;
+  overflow: hidden;
+  margin: 0 -100%;
+  
+  // Subtle pattern overlay
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(142, 36, 170, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(75, 85, 205, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+  }
+
+  .site-branding {
+    flex: 1 1 30%;
+    
+    a {
+      display: block;
+      width: 220px;
+      height: 48px;
+      background: url(../assets/images/riad-kilani-logo.png) no-repeat center center;
+      background-size: contain;
+      overflow: hidden;
+      text-indent: -1000px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 3px 12px rgba($accent, 0.2));
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      
+      &::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        background: linear-gradient(45deg, transparent, rgba(142, 36, 170, 0.2), transparent);
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+      
+      &:hover {
+        filter: drop-shadow(0 6px 20px rgba($primary, 0.3));
+        transform: translateY(-2px);
+        
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+    
+    p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 8px;
+      letter-spacing: 0.8px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+
+  nav {
+    flex: 1 1 20%;
+    display: flex;
+    justify-content: center;
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      text-transform: uppercase;
+      font-size: 15px;
+      
+      a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(142, 36, 170, 0.3), transparent);
+          transition: left 0.5s ease;
+        }
+        
+        &:hover {
+          color: #fff;
+          background: rgba(142, 36, 170, 0.2);
+          border-color: rgba(142, 36, 170, 0.4);
+          transform: translateX(8px);
+          box-shadow: 0 4px 15px rgba(142, 36, 170, 0.2);
+          
+          &::before {
+            left: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-contact {
+    flex: 1 1 30%;
+    text-align: left;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    
+    p {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+      
+      i {
+        font-size: 18px;
+        color: #8e24aa;
+        width: 20px;
+        text-align: center;
+      }
+      
+      a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          color: #8e24aa;
+          text-shadow: 0 0 8px rgba(142, 36, 170, 0.4);
+        }
+      }
+    }
+    
+    .footer-title {
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #8e24aa, #ba68c8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .socials {
+      margin-top: 20px;
+      display: flex;
+      gap: 16px;
+      justify-content: end;
+      
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 20px;
+        background: linear-gradient(135deg, rgba(142, 36, 170, 0.2), rgba(75, 85, 205, 0.2));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(45deg, #8e24aa, #ba68c8);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        &::after {
+          content: "";
+          position: absolute;
+          inset: 2px;
+          background: linear-gradient(135deg, #1a1a2e, #16213e);
+          border-radius: 50%;
+          transition: all 0.3s ease;
+        }
+        
+        i {
+          position: relative;
+          z-index: 1;
+        }
+        
+        &:hover {
+          color: #fff;
+          transform: translateY(-3px) scale(1.1);
+          box-shadow: 0 8px 25px rgba(142, 36, 170, 0.4);
+          
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    width: 100%;
+    text-align: center;
+    margin-top: 32px;
+    font-size: 13px;
+    color: $text-muted;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+  }
+}
+
+// Responsive styles
+@media (max-width: $bp-md) {
+  footer .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 0 20px;
+    
+    .site-branding {
+      margin-bottom: 12px;
+      text-align: center;
+      
+      a {
+        width: 180px;
+        height: 38px;
+      }
+    }
+    
+    nav {
+      width: 100%;
+      justify-content: center;
+      
+      ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        
+        a {
+          padding: 6px 12px;
+          font-size: 14px;
+        }
+      }
+    }
+    
+    .footer-contact {
+      width: 100%;
+      text-align: center;
+      margin-top: 12px;
+      
+      .socials {
+        justify-content: center;
+        gap: 12px;
+        
+        a {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $bp-sm) {
+  footer {
+    padding: 18px 2px;
+    .container {
+      padding: 0 20px;
+      gap: 0 !important;
+      align-items: center !important;
+      .site-branding a {
+        height: 45px;
+        width: 280px;
+        margin-bottom: 0;
+      }
+      nav ul {
+        gap: 8px;
+        font-size: 12px;
+        
+        a {
+          padding: 4px 8px;
+          font-size: 12px;
+        }
+      }
+      
+      .footer-contact {
+        font-size: 13px;
+        margin-top: 0;
+        .footer-title {
+          font-size: 16px;
+        }
+        
+        p {
+          font-size: 13px;
+          
+          i {
+            font-size: 16px;
+          }
+        }
+        
+        .socials {
+          gap: 10px;
+          
+          a {
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+          }
+        }
+      }
+    }
+    .footer-bottom {
+      font-size: 11px;
+      margin-top: 18px;
+    }
+  }
+}

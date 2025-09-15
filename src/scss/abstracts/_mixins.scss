@@ -1,0 +1,103 @@
+/*!
+ * Partial: _mixins.scss
+ * Purpose: SCSS mixins for layout, buttons, cards, font sizes, responsive utilities, and more.
+ * Features: Flex center, container, button, card shadow, responsive font sizes, scrollbar hiding, px-to-rem conversion, font size utilities.
+ * Usage: Import in style.scss and other partials to reuse mixins for consistent styles.
+ * Dependencies: Uses variables from _variables.scss and math from sass:math.
+ * Last updated: 2025-09-11
+ */
+@use "sass:math";
+@use '_variables' as *;
+
+// Flex Center
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Responsive Container
+@mixin container {
+  max-width: $container-max;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+// Button Styles
+@mixin btn {
+  background-color: $primary;
+  border-radius: $radius;
+  color: $text-white;
+  border: solid 1px $secondary-blue;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 12px 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: $secondary-blue;
+  }
+}
+
+// Card Shadow
+@mixin card-shadow {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+// Responsive Font Size
+@mixin responsive-font($size-lg, $size-md, $size-sm) {
+  font-size: $size-lg;
+
+  @media (max-width: $bp-md) {
+    font-size: $size-md;
+  }
+  @media (max-width: $bp-sm) {
+    font-size: $size-sm;
+  }
+}
+
+// Hide Scrollbar (for overflow-x)
+@mixin hide-scrollbar {
+  overflow-x: hidden;
+  -ms-overflow-style: none; // IE 10+
+  scrollbar-width: none; // Firefox
+  &::-webkit-scrollbar {
+    display: none; // Chrome/Safari/Webkit
+  }
+}
+
+// Convert px to rem
+@mixin rem($property, $px, $base: 16) {
+  #{$property}: math.div($px, $base) * 1rem;
+}
+// Font Size Mixins
+@mixin font-size-xs {
+  @include rem(font-size, $font-size-xs);
+}
+@mixin font-size-sm {
+  @include rem(font-size, $font-size-sm);
+}
+@mixin font-size-md {
+  @include rem(font-size, $font-size-md);
+}
+@mixin font-size-lg {
+  @include rem(font-size, $font-size-lg);
+}
+@mixin font-size-xl {
+  @include rem(font-size, $font-size-xl);
+}
+@mixin font-size-xxl {
+  @include rem(font-size, $font-size-xxl);
+}
+@mixin font-size-hero {
+  @include rem(font-size, $font-size-hero);
+}
+@mixin font-size-hero-md {
+  @include rem(font-size, $font-size-hero-md);
+}
+@mixin font-size-hero-sm {
+  @include rem(font-size, $font-size-hero-sm);
+}

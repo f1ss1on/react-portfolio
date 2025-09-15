@@ -1,0 +1,433 @@
+/*!
+ * Partial: _syntax-highlight.scss
+ * Purpose: Styles for syntax highlighting in code blocks and pre/code elements.
+ * Features: Code block, pre, inline code, language-specific highlighting, responsive adjustments.
+ * Usage: Import in style.scss for blog/code syntax highlighting.
+ * Dependencies: Uses variables from abstracts.
+ * Last updated: 2025-09-11
+ */
+@use '../../abstracts/variables' as *;
+pre, code {
+  font-family: "Fira Code", "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+code {
+  background: #252526;
+  color: #d4d4d4;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #3c3c3c;
+  font-size: 13px;
+}
+pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+pre {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #3c3c3c;
+  overflow-x: auto;
+  margin: 30px 0;
+  position: relative;
+}
+pre::-webkit-scrollbar {
+  height: 8px;
+}
+pre::-webkit-scrollbar-track {
+  background: #252526;
+  border-radius: 4px;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #3c3c3c;
+  border-radius: 4px;
+}
+pre::-webkit-scrollbar-thumb:hover {
+  background: rgb(85.5, 85.5, 85.5);
+}
+pre:hover .copy-button {
+  opacity: 1;
+}
+
+.code-language {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 11px;
+  color: #6a9955;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #252526;
+  border: 1px solid #3c3c3c;
+  color: #d4d4d4;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.copy-button:hover {
+  background: #3c3c3c;
+}
+
+.wp-block-code {
+  background: #1e1e1e;
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+}
+.wp-block-code code {
+  color: #d4d4d4;
+  background: none;
+}
+
+.hljs {
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type {
+  color: #569cd6;
+  font-weight: 600;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #ce9178;
+}
+
+.hljs-number {
+  color: #b5cea8;
+}
+
+.hljs-function,
+.hljs-title,
+.hljs-built_in {
+  color: #dcdcaa;
+  font-weight: 600;
+}
+
+.hljs-variable,
+.hljs-attr,
+.hljs-name {
+  color: #9cdcfe;
+}
+
+.hljs-operator,
+.hljs-punctuation {
+  color: #d4d4d4;
+}
+
+.hljs-class,
+.hljs-constructor {
+  color: #4ec9b0;
+  font-weight: 600;
+}
+
+.hljs-regexp {
+  color: #d16969;
+}
+
+.hljs-meta {
+  color: #75beff;
+}
+
+.hljs-deletion {
+  background: rgba(244, 71, 71, 0.2);
+  color: #f44747;
+}
+
+.hljs-addition {
+  background: rgba(137, 209, 133, 0.2);
+  color: #89d185;
+}
+
+.language-javascript .hljs-built_in,
+.language-js .hljs-built_in,
+.language-typescript .hljs-built_in,
+.language-ts .hljs-built_in {
+  color: #4fc1ff;
+}
+.language-javascript .hljs-property,
+.language-js .hljs-property,
+.language-typescript .hljs-property,
+.language-ts .hljs-property {
+  color: #9cdcfe;
+}
+
+.language-css .hljs-selector-class,
+.language-scss .hljs-selector-class {
+  color: #d7ba7d;
+}
+.language-css .hljs-selector-id,
+.language-scss .hljs-selector-id {
+  color: #b8d7a3;
+}
+.language-css .hljs-property,
+.language-scss .hljs-property {
+  color: #92c5f7;
+}
+.language-css .hljs-value,
+.language-scss .hljs-value {
+  color: #ce9178;
+}
+
+.language-html .hljs-tag {
+  color: #569cd6;
+}
+.language-html .hljs-name {
+  color: #4fc1ff;
+}
+.language-html .hljs-attr {
+  color: #92c5f7;
+}
+
+.language-php .hljs-variable {
+  color: #9cdcfe;
+}
+.language-php .hljs-keyword {
+  color: #569cd6;
+}
+.language-php .hljs-class {
+  color: #4ec9b0;
+}
+
+.language-json .hljs-attr {
+  color: #9cdcfe;
+}
+.language-json .hljs-string {
+  color: #ce9178;
+}
+.language-json .hljs-number {
+  color: #b5cea8;
+}
+.language-json .hljs-literal {
+  color: #569cd6;
+}
+
+.language-bash,
+.language-shell,
+.language-terminal {
+  background: #0c0c0c;
+  color: #cccccc;
+}
+.language-bash .hljs-built_in,
+.language-shell .hljs-built_in,
+.language-terminal .hljs-built_in {
+  color: #4fc1ff;
+}
+.language-bash .hljs-variable,
+.language-shell .hljs-variable,
+.language-terminal .hljs-variable {
+  color: #75beff;
+}
+.language-bash .hljs-string,
+.language-shell .hljs-string,
+.language-terminal .hljs-string {
+  color: #89d185;
+}
+
+.post-content p code {
+  background: #252526;
+  color: #d4d4d4;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  border: 1px solid #3c3c3c;
+}
+.post-content .code-block-with-lines {
+  position: relative;
+}
+.post-content .code-block-with-lines .line-numbers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: #252526;
+  border-right: 1px solid #3c3c3c;
+  color: #6a9955;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 20px 8px;
+  text-align: right;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.post-content .code-block-with-lines .line-numbers span {
+  display: block;
+}
+.post-content .code-block-with-lines pre {
+  padding-left: 60px;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #d4d4d4;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #b5cea8;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #ce9178;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #d4d4d4;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #569cd6;
+}
+
+.token.function,
+.token.class-name {
+  color: #dcdcaa;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #9cdcfe;
+}
+
+@media (max-width: 768px) {
+  pre {
+    padding: 15px;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block-with-lines .line-numbers {
+    width: 35px;
+    padding: 15px 6px;
+    font-size: 11px;
+  }
+  .code-block-with-lines pre {
+    padding-left: 50px;
+  }
+}
+@media (max-width: 480px) {
+  pre {
+    margin: 20px 0;
+    border-radius: 12px;
+  }
+  code {
+    font-size: 12px;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  pre, code {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border-color: #3c3c3c;
+  }
+}
+@media (prefers-contrast: high) {
+  pre {
+    border: 2px solid #d4d4d4;
+  }
+  code {
+    border: 1px solid #d4d4d4;
+  }
+}
+@media (max-width: 768px) {
+  .content-sidebar-wrapper {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -ms-flex-direction: column !important;
+    flex-direction: column !important;
+    gap: 20px;
+  }
+  .content-sidebar-wrapper .single-content {
+    max-width: 100%;
+    padding: 0;
+  }
+  .content-sidebar-wrapper .single-content .blog-full {
+    padding: 15px;
+  }
+  .sidebar-wrapper {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+  .featured-image {
+    float: none;
+    margin: 20px 0;
+    max-width: 100%;
+  }
+  .featured-image-right {
+    float: none;
+    margin: 20px 0;
+    max-width: 100%;
+  }
+  .sidebar {
+    margin-top: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .content-sidebar-wrapper {
+    gap: 15px;
+  }
+  .sidebar {
+    padding: 15px;
+  }
+  .widget {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+
+}

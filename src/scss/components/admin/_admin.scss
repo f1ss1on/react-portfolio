@@ -1,0 +1,502 @@
+/**
+ * Partial: _admin.scss
+ * Purpose: Styles for the admin panel, project management, gallery management, and forms.
+ * Features: Admin header/tabs, project/gallery cards, form controls, responsive design.
+ * Usage: Import in main style.scss for admin-related UI components.
+ * Dependencies: Uses variables from _variables.scss.
+* Last updated: 2025-08
+ */
+@use 'sass:color';
+@use '_variables' as *;
+
+// Admin Panel Styles
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  
+  .admin-header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid $primary;
+    padding-bottom: 1rem;
+    
+    h1 {
+      color: $primary;
+      margin-bottom: 1rem;
+    }
+    
+    .admin-tabs {
+      display: flex;
+      gap: 1rem;
+      
+      .tab-btn {
+        padding: 0.75rem 1.5rem;
+        border: 2px solid $primary;
+        background: transparent;
+        color: $primary;
+        cursor: pointer;
+        border-radius: $radius;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background: $primary;
+          color: white;
+        }
+        
+        &.active {
+          background: $primary;
+          color: white;
+        }
+      }
+    }
+  }
+  
+  .tab-content {
+    display: none;
+    
+    &.active {
+      display: block;
+    }
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    
+    h2 {
+      color: $text;
+      margin: 0;
+    }
+  }
+  
+  // Project Management Styles
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+  
+  .project-card {
+    background: white;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba($primary, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba($primary, 0.15);
+      
+      .project-card-overlay {
+        opacity: 1;
+      }
+    }
+    
+    .project-card-image {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      
+      .project-thumb {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      
+      .project-card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        
+        .project-actions {
+          display: flex;
+          gap: 1rem;
+          
+          .btn {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+    }
+    
+    .project-card-content {
+      padding: 1.5rem;
+      
+      .project-title {
+        color: $primary;
+        margin: 0 0 0.75rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      
+      .project-desc {
+        color: $text-light;
+        margin: 0 0 1rem 0;
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+      
+      .project-tech {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        
+        .tech-tag {
+          background: $accent;
+          color: $primary;
+          padding: 0.25rem 0.75rem;
+          border-radius: $radius;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  
+  // Gallery Management Styles
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .gallery-card {
+    background: white;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba($primary, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba($primary, 0.15);
+      
+      .gallery-card-overlay {
+        opacity: 1;
+      }
+    }
+    
+    .gallery-card-image {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .gallery-thumb-admin {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      
+      .gallery-card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        
+        .gallery-actions {
+          display: flex;
+          gap: 1rem;
+          
+          .btn {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+    }
+    
+    .gallery-card-content {
+      padding: 1rem 1.5rem;
+      
+      .gallery-alt {
+        margin: 0;
+        font-size: 0.9rem;
+        color: $text;
+        text-align: center;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  // Legacy gallery styles for backward compatibility
+  .gallery-item {
+    position: relative;
+    background: white;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba($primary, 0.1);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.02);
+      
+      .gallery-item-overlay {
+        opacity: 1;
+      }
+    }
+    
+    .gallery-thumb-admin {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    
+    .gallery-item-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      
+      .btn {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    .gallery-alt {
+      padding: 0.75rem;
+      margin: 0;
+      font-size: 0.875rem;
+      color: $text-light;
+      text-align: center;
+    }
+  }
+  
+  // Form Styles
+  .form-group {
+    margin-bottom: 1.5rem;
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $text;
+      font-weight: 500;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid $light;
+      border-radius: $radius;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    small {
+      display: block;
+      margin-top: 0.25rem;
+      color: $text-light;
+      font-size: 0.875rem;
+    }
+  }
+  
+  .tech-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    
+    .tech-name, .tech-icon {
+      flex: 1;
+    }
+    
+    .remove-tech {
+      min-width: auto;
+      padding: 0.5rem 1rem;
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid $light;
+  }
+  
+  // Button Styles
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: $radius;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    
+    &.btn-primary {
+      background: $primary;
+      color: white;
+      
+      &:hover {
+        background: color.adjust($primary, $lightness: -10%);
+        transform: translateY(-1px);
+      }
+    }
+    
+    &.btn-secondary {
+      background: $light;
+      color: $text;
+      
+      &:hover {
+        background: color.adjust($light, $lightness: -10%);
+      }
+    }
+    
+    &.btn-danger {
+      background: #dc3545;
+      color: white;
+      
+      &:hover {
+        background: color.adjust(#dc3545, $lightness: -10%);
+      }
+    }
+  }
+  
+  // Responsive Design
+  @media (max-width: 768px) {
+    padding: 1rem;
+    
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .project-card {
+      .project-card-image {
+        height: 180px;
+      }
+      
+      .project-card-content {
+        padding: 1.25rem;
+        
+        .project-title {
+          font-size: 1.1rem;
+        }
+        
+        .project-desc {
+          font-size: 0.9rem;
+        }
+      }
+    }
+    
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    
+    .admin-modal {
+      padding: 1rem;
+      
+      .admin-modal-content {
+        margin: 0;
+      }
+    }
+    
+    .tech-item {
+      flex-direction: column;
+      
+      .tech-name, .tech-icon {
+        width: 100%;
+      }
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .projects-grid {
+      gap: 1rem;
+    }
+    
+    .project-card {
+      .project-card-overlay {
+        .project-actions {
+          .btn {
+            width: 45px;
+            height: 45px;
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}

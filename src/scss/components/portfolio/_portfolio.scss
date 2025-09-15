@@ -1,0 +1,416 @@
+/**
+ * Partial: _portfolio.scss
+ * Purpose: Styles for the portfolio section, including project cards, gallery, tabbed galleries, and responsive layouts.
+ * Features: Portfolio grid, card design, gallery tiles, tabbed navigation, technology tags, responsive design.
+ * Usage: Import in style.scss for portfolio and gallery components.
+ * Dependencies: Uses _variables.scss and _mixins.scss.
+ * Last updated: 2025-08-15
+ */
+@use 'sass:color';
+@use '../../abstracts/variables' as *;
+@use '../../abstracts/mixins' as *;
+
+.portfolio {
+  color: $text-dark;
+
+  .container {
+    //background: linear-gradient(120deg, $background-light 80%, $accent 100%);
+    //padding: $gap-lg $gap;
+    //border-radius: $radius-lg;
+    //box-shadow: 0 4px 24px rgba($primary, 0.09);
+    
+    // Updated projects grid for 2 columns
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $gap-lg;
+      margin: 0 auto;
+      justify-items: center;
+    }
+
+    .card {
+      background: $text-white;
+      color: $text-dark;
+      border-radius: $radius-lg;
+      border: 1px solid #e3e3e3;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba($primary, 0.08);
+      transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+      min-height: 420px;
+      position: relative;
+
+      &:hover {
+        
+        box-shadow: 0 8px 32px rgba($primary, 0.13);
+        border-color: #dadada;
+      }
+
+      .card-head {
+        width: 100%;
+        // Remove fixed height, use aspect-ratio for image container
+        .project-img-16x9 {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
+          background: #f5f5f5;
+          border-radius: 8px;
+          cursor: pointer;
+          
+          img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            left: 0;
+            top: 0;
+            transition: transform 0.3s;
+            cursor: pointer;
+          }
+          
+          &:hover img {
+            transform: scale(1.07) rotate(-2deg);
+          }
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0; right: 0; bottom: 0;
+          height: 38px;
+          background: linear-gradient(0deg, rgba($primary,0.09) 80%, transparent 100%);
+        }
+      }
+
+      .card-bod {
+        padding: $gap;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        h3 {
+          @include font-size-xl;
+          margin: 10px 0 8px 0;
+          font-family: DM Sans, sans-serif;
+          color: $primary-dark;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          transition: color 0.3s ease, transform 0.2s ease;
+          
+          &:hover {
+            color: $primary;
+            transform: translateY(-1px);
+          }
+        }
+
+        p {
+          @include font-size-md;
+          margin-bottom: $gap;
+          color: $text-muted;
+        }
+
+        .card-links {
+          margin-top: auto;
+          display: flex;
+          gap: 12px;
+          a {
+            @include btn;
+            font-size: 13px;
+            padding: 8px 16px;
+            i {
+              margin-right: 6px;
+              font-size: 16px;
+              vertical-align: middle;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.tech-used {
+  .fa-illustrator,
+  .fa-photoshop,
+  .fa-aftereffects,
+  .fa-indesign {
+    &::before {
+      background-size: contain;
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+  }
+  .fa-illustrator {
+    &::before {
+      background-image: url("../assets/images/illustrator-brands.svg");
+    }
+  }
+  .fa-photoshop {
+    &::before {
+      background-image: url("../assets/images/photoshop-brands.svg");
+    }
+  }
+  .fa-aftereffects {
+    &::before {
+      background-image: url("../assets/images/aftereffects-brands.svg");
+    }
+  }
+  .fa-indesign {
+    &::before {
+      background-image: url("../assets/images/indesign-brands.svg");
+    }
+  }  
+}
+// Responsive styles
+@media (max-width: $bp-md) {
+  .portfolio .container {
+    padding: 24px 10px;
+    .projects-grid {
+      gap: 24px;
+      grid-template-columns: 1fr;
+    }
+ 
+    .card-bod h3 { @include font-size-lg; }
+    .card-bod p { @include font-size-sm; }
+  }
+}
+
+@media (max-width: $bp-sm) {
+  .portfolio .container {
+    padding: 12px 4px;
+    .projects-grid {
+      gap: 12px;
+    }
+
+    .card-bod h3 { @include font-size-md; }
+    .card-bod p { @include font-size-xs; }
+    .card-links a { font-size: 11px; padding: 6px 10px; }
+  }
+}
+
+// Gallery and lightbox styles
+.portfolio-gallery {
+  margin-bottom: 60px; // Add spacing between galleries
+  
+  &:last-of-type {
+    margin-bottom: 0; // Remove margin from last gallery
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 32px;
+    color: $primary;
+    font-family: $font-heading;
+    font-size: 2rem;
+  }
+  
+  .gallery-grid-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    
+    .gallery-tile {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: $radius-lg;
+      box-shadow: 0 4px 16px rgba($primary, 0.12);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 36px rgba($accent, 0.18);
+      }
+    }
+  }
+}
+
+// Tabbed Gallery Styles
+.portfolio-gallery-tabs {
+  margin-bottom: 60px;
+  
+  .gallery-tabs-header {
+    text-align: center;
+    margin-bottom: 40px;
+    
+    h2 {
+      color: $primary;
+      font-family: $font-heading;
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+  }
+  
+  .gallery-tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    
+    .gallery-tab-btn {
+      @include btn;
+      cursor: pointer;
+      
+      i {
+        font-size: 1.1rem;
+        transition: transform 0.3s ease;
+        margin-right: 10px;
+      }
+      
+      &:hover {
+        transform: translateY(-2px);
+        
+        i {
+          transform: scale(1.1);
+        }
+      }
+      
+      &.active {
+        background: $secondary-blue;
+        color: $text-white;
+        box-shadow: 0 4px 16px rgba($primary, 0.3);
+        
+        i {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+  
+  .gallery-tabs-content {
+    .gallery-tab-panel {
+      display: none;
+      
+      &.active {
+        display: block;
+      }
+      
+      .gallery-grid-tiles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        
+        .gallery-tile {
+          width: 100%;
+          aspect-ratio: 4/3;
+          object-fit: cover;
+          border-radius: $radius-lg;
+          box-shadow: 0 4px 16px rgba($primary, 0.12);
+          cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          
+          &:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 36px rgba($accent, 0.18);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive styles for gallery
+@media (max-width: 1024px) {
+  .portfolio-gallery .gallery-grid-tiles,
+  .portfolio-gallery-tabs .gallery-tab-panel .gallery-grid-tiles {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 16px;
+  }
+  
+  .portfolio-gallery-tabs .gallery-tabs-nav .gallery-tab-btn {
+    min-width: 120px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-gallery .gallery-grid-tiles,
+  .portfolio-gallery-tabs .gallery-tab-panel .gallery-grid-tiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 16px;
+  }
+  
+  .portfolio-gallery-tabs .gallery-tabs-nav {
+    gap: 6px;
+    
+    .gallery-tab-btn {
+      min-width: 100px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      
+      i {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+.project-img-16x9 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #f5f5f5;
+  border-radius: 8px;
+  cursor: pointer;
+}
+@media (max-width: 480px) {
+  .portfolio-gallery .gallery-grid-tiles,
+  .portfolio-gallery-tabs .gallery-tab-panel .gallery-grid-tiles {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .portfolio-gallery-tabs .gallery-tabs-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    
+    .gallery-tab-btn {
+      min-width: 200px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+    }
+  }
+}
+.proj-disc {
+  padding: 24px;
+  text-align: center;
+  p {
+    margin: 0;
+    color: #333;
+  }
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: $primary;
+  }
+}

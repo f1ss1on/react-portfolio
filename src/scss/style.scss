@@ -1,0 +1,56 @@
+@use 'sass:color';
+
+// Forward variables and mixins to make them available globally
+@forward 'abstracts/variables';
+
+@forward 'abstracts/mixins';
+
+@use 'base/normalize';
+
+@use 'abstracts/mixins' as *;
+
+@use 'abstracts/variables' as *;
+
+// Use typography styles
+@use 'base/typography';
+
+// Use performance optimizations
+@use 'utils/performance';
+
+// Use base styles for global resets and layout
+@use 'base/base';
+
+// Use header styles
+@use 'base/header';
+
+// Use footer styles
+@use 'base/footer';
+
+// Use home page/component styles
+@use 'components/home/home';
+
+// Use portfolio page/component styles
+@use 'components/portfolio/portfolio';
+
+// Use modal & lightbox component styles
+@use 'utils/modal';
+
+@use 'utils/lightbox';
+
+// Use bio page/component styles
+@use 'components/bio/bio';
+
+// Use contact page/component styles
+@use 'components/contact/contact';
+
+// Use layout styles
+@use 'components/blog/layout';
+
+// Use widgets styles
+@use 'components/blog/blog-sidebar';
+
+// Use syntax highlighting styles
+@use 'components/blog/syntax-highlight';
+
+// Important Above The Fold Styles
+@use 'base/imp-atf';

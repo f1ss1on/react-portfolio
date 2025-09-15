@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Form - Generate JSON</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+    .form-container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+    .form-header { background: linear-gradient(135deg, #2b72c9, #1e5aa3); color: white; padding: 30px; text-align: center; }
+    .form-header h1 { font-size: 2rem; margin-bottom: 10px; }
+    .form-header p { opacity: 0.9; font-size: 1.1rem; }
+    .form-content { padding: 40px; }
+    .form-group { margin-bottom: 30px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 1rem; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; font-family: inherit; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #2b72c9; box-shadow: 0 0 0 3px rgba(43,114,201,0.1); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .image-upload { border: 2px dashed #d0d7de; border-radius: 8px; padding: 30px; text-align: center; background: #f8f9fa; transition: all 0.3s ease; margin-bottom: 10px; }
+    .image-upload input[type="file"] { display: none; }
+    .image-upload label { cursor: pointer; display: block; color: #6c757d; }
+    .image-upload i { font-size: 2rem; color: #2b72c9; margin-bottom: 10px; }
+    .preview-image { max-width: 180px; max-height: 120px; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .multi-preview { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .multi-preview img { max-width: 100px; max-height: 80px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .submit-btn { background: linear-gradient(135deg, #2b72c9, #1e5aa3); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: block; margin: 0 auto; min-width: 200px; }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(43,114,201,0.3); }
+    .json-output { margin-top: 30px; padding: 20px; background: #1e1e1e; border-radius: 8px; border: 1px solid #333; display: none; }
+    .json-output pre { color: #f8f8f2; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
+    .copy-btn { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-top: 10px; }
+    .copy-btn:hover { background: #218838; }
+    .tech-section { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e9ecef; }
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+    .tech-option { display: flex; align-items: center; padding: 12px; background: white; border: 2px solid #e1e5e9; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+    .tech-option:hover { border-color: #2b72c9; transform: translateY(-2px); }
+    .tech-option.selected { border-color: #2b72c9; background: #f0f7ff; }
+    .tech-option input[type="checkbox"] { margin-right: 10px; width: auto; }
+    .tech-option i { margin-right: 8px; width: 20px; color: #2b72c9; }
+    @media (max-width: 768px) { .form-content { padding: 20px; } .tech-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-header">
+      <h1><i class="fas fa-plus-circle"></i> Add New Project</h1>
+      <p>Fill in the details below to generate JSON for projects.js</p>
+    </div>
+      <button id="newProjectBtn" style="margin-bottom: 1rem;">New Project</button>
+    <div class="form-content">
+      <form id="project-form">
+        <div class="form-group">
+          <label for="project-title"><i class="fas fa-heading"></i> Title</label>
+          <input type="text" id="project-title" name="title" placeholder="Enter project title..." required>
+        </div>
+        <div class="form-group">
+          <label for="project-img"><i class="fas fa-image"></i> Main Image</label>
+          <div class="image-upload">
+            <input type="file" id="project-img" accept="image/*">
+            <label for="project-img"><i class="fas fa-cloud-upload-alt"></i> Upload Main Image</label>
+          </div>
+          <div id="img-preview"></div>
+        </div>
+        <div class="form-group">
+          <label for="project-desc"><i class="fas fa-align-left"></i> Description</label>
+          <textarea id="project-desc" name="desc" placeholder="Describe your project in detail... Use blank lines for paragraphs." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="project-secimg"><i class="fas fa-image"></i> Secondary Image</label>
+          <div class="image-upload">
+            <input type="file" id="project-secimg" accept="image/*">
+            <label for="project-secimg"><i class="fas fa-cloud-upload-alt"></i> Upload Secondary Image</label>
+          </div>
+          <div id="secimg-preview"></div>
+        </div>
+        <div class="form-group">
+          <label for="project-addimg"><i class="fas fa-images"></i> Additional Images</label>
+          <div class="image-upload">
+            <input type="file" id="project-addimg" accept="image/*" multiple>
+            <label for="project-addimg"><i class="fas fa-cloud-upload-alt"></i> Upload Additional Images</label>
+          </div>
+          <div class="multi-preview" id="addimg-preview"></div>
+        </div>
+        <div class="form-group">
+          <label for="project-deliverables"><i class="fas fa-tasks"></i> Deliverables</label>
+          <textarea id="project-deliverables" name="deliverables" placeholder="List deliverables. Use blank lines for paragraphs."></textarea>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-star"></i> Featured</label>
+          <input type="checkbox" id="project-featured" name="featured"> <label for="project-featured" style="display:inline; font-weight:400;">Mark as featured</label>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-tools"></i> Technologies Used</label>
+          <div class="tech-section">
+            <p style="margin-bottom: 15px; color: #6c757d;">Select all technologies used in this project:</p>
+            <div class="tech-grid" id="tech-grid"></div>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn"><i class="fas fa-code"></i> Generate JSON</button>
+        <div id="json-output" class="json-output">
+          <h3 style="color: #f8f8f2; margin-bottom: 15px;"><i class="fas fa-file-code"></i> Generated JSON:</h3>
+          <pre id="json-content"></pre>
+          <button type="button" class="copy-btn" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy to Clipboard</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Technologies list
+    const techList = [
+      { name: "React", icon: "fab fa-react" },
+      { name: "JavaScript", icon: "fab fa-js" },
+      { name: "HTML5", icon: "fab fa-html5" },
+      { name: "CSS3", icon: "fab fa-css3-alt" },
+      { name: "Sass", icon: "fab fa-sass" },
+      { name: "Bootstrap", icon: "fab fa-bootstrap" },
+      { name: "Node.js", icon: "fab fa-node-js" },
+      { name: "WordPress", icon: "fab fa-wordpress" },
+      { name: "Figma", icon: "fab fa-figma" },
+      { name: "Git", icon: "fab fa-git-alt" },
+      { name: "Gulp", icon: "fab fa-gulp" },
+      { name: "Vue.js", icon: "fab fa-vuejs" },
+      { name: "PHP", icon: "fab fa-php" },
+      { name: "Drupal", icon: "fab fa-drupal" },
+      { name: "Illustrator", icon: "fab fa-illustrator" },
+      { name: "Photoshop", icon: "fab fa-photoshop" },
+      { name: "AfterEffects", icon: "fab fa-aftereffects" },
+      { name: "InDesign", icon: "fab fa-indesign" }
+    ];
+    // Render tech checkboxes
+    const techGrid = document.getElementById('tech-grid');
+    techList.forEach((tech, i) => {
+      const div = document.createElement('div');
+      div.className = 'tech-option';
+      div.dataset.tech = tech.name;
+      div.dataset.icon = tech.icon;
+      div.innerHTML = `<input type="checkbox" id="tech-${i}" value="${tech.name}"><i class="${tech.icon}"></i><label for="tech-${i}">${tech.name}</label>`;
+      techGrid.appendChild(div);
+      div.addEventListener('click', function(e) {
+        if (e.target.tagName !== 'INPUT') {
+          const cb = div.querySelector('input[type="checkbox"]');
+          cb.checked = !cb.checked;
+          div.classList.toggle('selected', cb.checked);
+        }
+      });
+    });
+      // New Project button clears the form/page
+      document.getElementById('newProjectBtn').addEventListener('click', function() {
+        // Option 1: Reload the page to clear everything
+        location.reload();
+      });
+    // Main image preview
+    document.getElementById('project-img').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('img-preview');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="preview-image">`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.innerHTML = '';
+      }
+    });
+    // Secondary image preview
+    document.getElementById('project-secimg').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('secimg-preview');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="preview-image">`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.innerHTML = '';
+      }
+    });
+    // Additional images preview
+    document.getElementById('project-addimg').addEventListener('change', function(e) {
+      const files = Array.from(e.target.files);
+      const preview = document.getElementById('addimg-preview');
+      preview.innerHTML = '';
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    // Form submission
+    document.getElementById('project-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('project-title').value.trim();
+      const desc = document.getElementById('project-desc').value.trim().replace(/\r\n/g, '\n');
+      const deliverables = document.getElementById('project-deliverables').value.trim().replace(/\r\n/g, '\n');
+      const featured = document.getElementById('project-featured').checked;
+      // Main image
+      const imgFile = document.getElementById('project-img').files[0];
+      let img = '';
+      if (imgFile) {
+        img = `portfolio/projects/${imgFile.name.replace(/\s+/g, '-').toLowerCase()}`;
+      }
+      // Secondary image
+      const secimgFile = document.getElementById('project-secimg').files[0];
+      let secimg = '';
+      if (secimgFile) {
+        secimg = `portfolio/projects/${secimgFile.name.replace(/\s+/g, '-').toLowerCase()}`;
+      }
+      // Additional images
+      const addimgFiles = Array.from(document.getElementById('project-addimg').files);
+      let addimg = '';
+      if (addimgFiles.length > 0) {
+        addimg = addimgFiles.map(f => `portfolio/projects/${f.name.replace(/\s+/g, '-').toLowerCase()}`).join(', ');
+      }
+      // Technologies
+      const selectedTech = [];
+      document.querySelectorAll('.tech-option input:checked').forEach(cb => {
+        const option = cb.closest('.tech-option');
+        selectedTech.push({ name: option.dataset.tech, icon: option.dataset.icon });
+      });
+      // Build project object
+      const project = { title, img, desc, secimg, addimg, deliverables, featured, tech: selectedTech };
+      // Output JSON
+      const jsonOutput = document.getElementById('json-output');
+      const jsonContent = document.getElementById('json-content');
+      let formattedOutput = JSON.stringify(project, null, 2);
+      formattedOutput = formattedOutput.replace(/"([^\"]+)":/g, '$1:');
+      jsonContent.textContent = formattedOutput;
+      jsonOutput.style.display = 'block';
+      jsonOutput.scrollIntoView({ behavior: 'smooth' });
+    });
+    // Copy to clipboard
+    function copyToClipboard() {
+      const jsonContent = document.getElementById('json-content').textContent;
+      navigator.clipboard.writeText(jsonContent).then(function() {
+        const btn = document.querySelector('.copy-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.style.background = '#28a745';
+        setTimeout(() => { btn.innerHTML = originalText; btn.style.background = '#28a745'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

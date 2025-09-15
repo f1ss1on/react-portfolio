@@ -1,0 +1,211 @@
+/*!
+ * Partial: _header.scss
+ * Purpose: Header styles for site-wide layout, branding, navigation, and menu toggle.
+ * Features: Responsive header, branding, navigation, menu toggle, gradients.
+ * Usage: Import in style.scss for global header styles.
+ * Dependencies: Uses variables and mixins from abstracts.
+ * Last updated: 2025-09-11
+ */
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+//Header
+.site-header {
+  background: #333;
+  margin: 0 -100%;
+
+  .container {
+    padding: 20px 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1140px;
+    margin: 0 auto;
+
+    .site-branding {
+      a {
+        display: block;
+        width: min(40vw, 400px);
+        height: min(15vw, 77px);
+        background: url(../assets/images/riad-kilani-logo.png) no-repeat center center;
+        background-size: contain;
+        overflow: hidden;
+        text-indent: -1000px;
+        transition: width 0.2s, height 0.2s;
+      }
+    }
+
+    nav {
+      ul {
+        list-style: none;
+        display: flex;
+        gap: 16px;
+        margin: 0;
+        padding: 0;
+
+        a {
+          color: #fff;
+          text-decoration: none;
+          text-transform: uppercase;
+          font-weight: 600;
+          letter-spacing: 1px;
+          padding: 12px 20px;
+          border-radius: 4px;
+          transition: background 0.3s, font-size 0.2s;
+
+          &:hover {
+            background: #555;
+          }
+
+          &.active {
+            background: #2b72c9;
+          }
+        }
+      }
+    }
+  }
+}
+
+.site-header {
+  position: relative;
+
+  .active {
+    ul {
+      li {
+        a {
+          color: #fff;
+          background: #2b72c9;
+        }
+      }
+    }
+  }
+
+  .menu-toggle {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: #555;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 100;
+
+    &:hover {
+      background: #666;
+    }
+
+    i {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    span {
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: #fff;
+      margin: 7px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header .container {
+    flex-direction: row;
+    padding: 12px 3vw;
+  }
+
+  .site-header .site-branding a {
+    width: min(50vw, 300px);
+    height: min(12vw, 60px);
+  }
+
+  .site-header nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #333;
+    width: 100vw;
+    max-width: 320px;
+    transform: translateX(100%);
+    transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    ul {
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px 12px;
+      align-items: stretch;
+      a {
+        text-align: left;
+        display: block;
+        padding: 12px 14px;
+        font-size: 15px;
+        background: none !important;
+        &:hover {
+          background: #555;
+        }
+        &.active {
+          background: #2b72c9;
+        }
+      }
+    }
+  }
+
+  .site-header #main-navigation.active {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .site-header .menu-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header .container {
+    flex-direction: row;
+    padding: 8px 2vw;
+
+    .site-branding a {
+      width: min(70vw, 180px);
+      height: min(16vw, 40px);
+    }
+  }
+
+  .site-header nav {
+    max-width: 220px;
+
+    ul {
+      padding: 12px 6px;
+      gap: 7px;
+
+      a {
+        padding: 8px 8px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+
+  .site-header .menu-toggle {
+    width: 36px;
+    height: 36px;
+    right: 8px;
+
+    i {
+      font-size: 18px;
+    }
+  }
+}

@@ -1,0 +1,252 @@
+/**
+ * Partial: _variables.scss
+ * Purpose: Centralized SCSS variables for colors, spacing, typography, breakpoints, and component settings.
+ * Features: Color palette, spacing units, margin/padding, breakpoints, font sizes, font families.
+ * Usage: Import first in style.scss and all partials for consistent design tokens.
+ * Dependencies: None (should be self-contained for all other partials).
+ * Last updated: 2025-08-15
+ */
+// Colors
+$text: #333;
+$text-white: #fff;
+$text-black: #000;
+$text-light: #f4f3f4;
+$text-dark: #333;
+$text-muted: #888;
+$primary: #0073aa;
+$secondary-blue: #005177;
+$primary-dark: #217dbb;
+$accent: #abafb2;
+$background-light: #f4f3f4;
+$progress-bg: #eee;
+$border: #ccc;
+$light: #f8f9fa;
+
+// Spacing
+$container-max: 1140px;
+$radius: 4px;
+$radius-lg: 8px;
+$gap: 20px;
+$gap-lg: 40px;
+$gap-xl: 60px;
+
+// Base spacing units
+$space-base: 4px;
+$space-xs: $space-base * 1;     // 4px
+$space-sm: $space-base * 2;     // 8px
+$space-md: $space-base * 3;     // 12px
+$space-lg: $space-base * 4;     // 16px
+$space-xl: $space-base * 5;     // 20px
+$space-xxl: $space-base * 6;    // 24px
+$space-xxxl: $space-base * 8;   // 32px
+
+// Margin variables
+$margin-xs: $space-xs;          // 4px
+$margin-sm: $space-sm;          // 8px
+$margin-md: $space-md;          // 12px
+$margin-lg: $space-lg;          // 16px
+$margin-xl: $space-xl;          // 20px
+$margin-xxl: $space-xxl;        // 24px
+$margin-xxxl: $space-xxxl;      // 32px
+$margin-huge: $space-base * 10; // 40px
+$margin-massive: $space-base * 15; // 60px
+
+// Padding variables
+$padding-xs: $space-xs;         // 4px
+$padding-sm: $space-sm;         // 8px
+$padding-md: $space-md;         // 12px
+$padding-lg: $space-lg;         // 16px
+$padding-xl: $space-xl;         // 20px
+$padding-xxl: $space-xxl;       // 24px
+$padding-xxxl: $space-xxxl;     // 32px
+$padding-huge: $space-base * 10; // 40px
+$padding-massive: $space-base * 15; // 60px
+
+// Section spacing (larger gaps)
+$section-padding-sm: $space-base * 10;  // 40px
+$section-padding-md: $space-base * 15;  // 60px
+$section-padding-lg: $space-base * 20;  // 80px
+$section-padding-xl: $space-base * 25;  // 100px
+
+// Component spacing
+$component-gap-xs: $space-xs;   // 4px
+$component-gap-sm: $space-sm;   // 8px
+$component-gap-md: $space-md;   // 12px
+$component-gap-lg: $space-lg;   // 16px
+$component-gap-xl: $space-xl;   // 20px
+
+// Directional Margins
+// Margin Top
+$margin-top-xs: $margin-xs;
+$margin-top-sm: $margin-sm;
+$margin-top-md: $margin-md;
+$margin-top-lg: $margin-lg;
+$margin-top-xl: $margin-xl;
+$margin-top-xxl: $margin-xxl;
+$margin-top-xxxl: $margin-xxxl;
+$margin-top-huge: $margin-huge;
+$margin-top-massive: $margin-massive;
+
+// Margin Bottom
+$margin-bottom-xs: $margin-xs;
+$margin-bottom-sm: $margin-sm;
+$margin-bottom-md: $margin-md;
+$margin-bottom-lg: $margin-lg;
+$margin-bottom-xl: $margin-xl;
+$margin-bottom-xxl: $margin-xxl;
+$margin-bottom-xxxl: $margin-xxxl;
+$margin-bottom-huge: $margin-huge;
+$margin-bottom-massive: $margin-massive;
+
+// Margin Left
+$margin-left-xs: $margin-xs;
+$margin-left-sm: $margin-sm;
+$margin-left-md: $margin-md;
+$margin-left-lg: $margin-lg;
+$margin-left-xl: $margin-xl;
+$margin-left-xxl: $margin-xxl;
+$margin-left-xxxl: $margin-xxxl;
+$margin-left-huge: $margin-huge;
+$margin-left-massive: $margin-massive;
+
+// Margin Right
+$margin-right-xs: $margin-xs;
+$margin-right-sm: $margin-sm;
+$margin-right-md: $margin-md;
+$margin-right-lg: $margin-lg;
+$margin-right-xl: $margin-xl;
+$margin-right-xxl: $margin-xxl;
+$margin-right-xxxl: $margin-xxxl;
+$margin-right-huge: $margin-huge;
+$margin-right-massive: $margin-massive;
+
+// Directional Paddings
+// Padding Top
+$padding-top-xs: $padding-xs;
+$padding-top-sm: $padding-sm;
+$padding-top-md: $padding-md;
+$padding-top-lg: $padding-lg;
+$padding-top-xl: $padding-xl;
+$padding-top-xxl: $padding-xxl;
+$padding-top-xxxl: $padding-xxxl;
+$padding-top-huge: $padding-huge;
+$padding-top-massive: $padding-massive;
+
+// Padding Bottom
+$padding-bottom-xs: $padding-xs;
+$padding-bottom-sm: $padding-sm;
+$padding-bottom-md: $padding-md;
+$padding-bottom-lg: $padding-lg;
+$padding-bottom-xl: $padding-xl;
+$padding-bottom-xxl: $padding-xxl;
+$padding-bottom-xxxl: $padding-xxxl;
+$padding-bottom-huge: $padding-huge;
+$padding-bottom-massive: $padding-massive;
+
+// Padding Left
+$padding-left-xs: $padding-xs;
+$padding-left-sm: $padding-sm;
+$padding-left-md: $padding-md;
+$padding-left-lg: $padding-lg;
+$padding-left-xl: $padding-xl;
+$padding-left-xxl: $padding-xxl;
+$padding-left-xxxl: $padding-xxxl;
+$padding-left-huge: $padding-huge;
+$padding-left-massive: $padding-massive;
+
+// Padding Right
+$padding-right-xs: $padding-xs;
+$padding-right-sm: $padding-sm;
+$padding-right-md: $padding-md;
+$padding-right-lg: $padding-lg;
+$padding-right-xl: $padding-xl;
+$padding-right-xxl: $padding-xxl;
+$padding-right-xxxl: $padding-xxxl;
+$padding-right-huge: $padding-huge;
+$padding-right-massive: $padding-massive;
+
+// Axis-based spacing (horizontal/vertical)
+// Horizontal margins (left + right)
+$margin-horizontal-xs: $margin-xs;
+$margin-horizontal-sm: $margin-sm;
+$margin-horizontal-md: $margin-md;
+$margin-horizontal-lg: $margin-lg;
+$margin-horizontal-xl: $margin-xl;
+$margin-horizontal-xxl: $margin-xxl;
+$margin-horizontal-xxxl: $margin-xxxl;
+$margin-horizontal-huge: $margin-huge;
+$margin-horizontal-massive: $margin-massive;
+
+// Vertical margins (top + bottom)
+$margin-vertical-xs: $margin-xs;
+$margin-vertical-sm: $margin-sm;
+$margin-vertical-md: $margin-md;
+$margin-vertical-lg: $margin-lg;
+$margin-vertical-xl: $margin-xl;
+$margin-vertical-xxl: $margin-xxl;
+$margin-vertical-xxxl: $margin-xxxl;
+$margin-vertical-huge: $margin-huge;
+$margin-vertical-massive: $margin-massive;
+
+// Horizontal paddings (left + right)
+$padding-horizontal-xs: $padding-xs;
+$padding-horizontal-sm: $padding-sm;
+$padding-horizontal-md: $padding-md;
+$padding-horizontal-lg: $padding-lg;
+$padding-horizontal-xl: $padding-xl;
+$padding-horizontal-xxl: $padding-xxl;
+$padding-horizontal-xxxl: $padding-xxxl;
+$padding-horizontal-huge: $padding-huge;
+$padding-horizontal-massive: $padding-massive;
+
+// Vertical paddings (top + bottom)
+$padding-vertical-xs: $padding-xs;
+$padding-vertical-sm: $padding-sm;
+$padding-vertical-md: $padding-md;
+$padding-vertical-lg: $padding-lg;
+$padding-vertical-xl: $padding-xl;
+$padding-vertical-xxl: $padding-xxl;
+$padding-vertical-xxxl: $padding-xxxl;
+$padding-vertical-huge: $padding-huge;
+$padding-vertical-massive: $padding-massive;
+
+// Breakpoints
+$bp-lg: 1050px;
+$bp-md: 900px;
+$bp-sm: 600px;
+
+// Font sizes
+$font-size-xs: 12;
+$font-size-sm: 14;
+$font-size-md: 16;
+$font-size-lg: 20;
+$font-size-xl: 24;
+$font-size-xxl: 32;
+$font-size-hero: 50;
+$font-size-hero-md: 46;
+$font-size-hero-sm: 22;
+
+// Font families
+$font-heading: "trajan-pro-3", serif;
+$font-heading-alt: "playfair_regular", serif;
+$font-heading-italic: "playfair_italic", serif;
+$font-alt: "dmsans", sans-serif;
+$trajan: "trajan-pro-3", serif;
+$font-body: "Inter", sans-serif;
+
+// =====================
+// Widget/Sidebar Variables
+// =====================
+$widget-bg: #ffffff;
+$widget-radius: 8px;
+$widget-border: 1px solid #eee;
+$widget-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$tag-bg: #f8f9fa;
+$tag-color: #333;
+$tag-hover-bg: #f8f9fa;
+$tag-hover-color: #333;
+$tag-hover-border: #2b72c9;
+$tag-after-bg: rgba(43, 114, 201, 0.1);
+$tag-after-color: #2b72c9;
+$tag-after-radius: 3px;
+$tag-gap: 8px;

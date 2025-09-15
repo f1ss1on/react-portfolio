@@ -1,0 +1,136 @@
+@use '../abstracts/variables' as *;
+/*!
+ * Partial: _performance.scss
+ * Purpose: Performance and loading optimizations for images, fonts, animations, and critical styles.
+ * Features: Image loading states, skeleton loaders, GPU acceleration, font loading, resource hints, responsive and accessibility optimizations.
+ * Usage: Import in style.scss to enable performance enhancements site-wide.
+ * Dependencies: Uses variables from _variables.scss.
+ * Last updated: 2025-09-11
+ */
+
+/* Image loading states - because nobody likes broken images */
+.image-loading {
+  opacity: 0.6;
+  filter: blur(2px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.image-loaded {
+  opacity: 1;
+  filter: none;
+}
+
+.image-error {
+  opacity: 0.5;
+  background: #f8f9fa;
+  border: 1px dashed #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.image-error::after {
+  content: "Image failed to load";
+}
+
+/* Smooth loading animations - keeps users happy while stuff loads */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Help the browser paint faster - GPU acceleration is your friend */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Critical above-the-fold styles - inline these in HTML */
+.hero-critical {
+  background: linear-gradient(120deg, #0d1c2a 0%, #2b72c9 100%);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Font loading optimization - swap means fallback text shows while custom font loads */
+@font-face {
+  font-family: 'TrajanProBold';
+  src: url('../assets/fonts/trajanpro/trajanpro-bold-webfont.woff') format('woff'),
+       url('../assets/fonts/trajanpro/trajanpro-bold-webfont.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap; /* Show fallback text immediately, swap when custom font loads */
+}
+
+/* Keep critical fonts loaded with fallbacks - no FOIT (Flash of Invisible Text) here! */
+.font-preload-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-preload-dm-sans {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Snappy animations - users notice anything over 200ms */
+.optimized-transition {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Respect user preferences - some folks get motion sick easily */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Critical viewport styles */
+
+
+/* Gallery performance boost - contain layout prevents reflows */
+.gallery-grid-optimized {
+  contain: layout;
+  will-change: contents;
+}
+
+.gallery-tile-optimized {
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+/* Modal performance boost - contain prevents layout thrashing */
+.modal-optimized {
+  contain: layout style paint;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Scroll performance */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  /* overflow-scrolling property doesn't exist - only webkit version works */
+}
+
+/* Resource hints support */
+
+/* Performance measurement helpers - because you can't improve what you don't measure */
+.performance-mark {
+  /* Hidden element for performance measurement - sneaky but useful */
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}

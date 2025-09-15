@@ -1,0 +1,101 @@
+/**
+ * Partial: _typography.scss
+ * Purpose: Typography styles and font imports for headings, body text, and custom fonts.
+ * Features: Font-face declarations, Google Fonts imports, font family setup, fallback handling.
+ * Usage: Import in style.scss and other partials to ensure consistent typography across the site.
+ * Dependencies: Uses _variables.scss for font families and may reference font files in assets.
+ * Last updated: 2025-08-15
+ */
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+//playfair
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap");
+// inter 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+//dm sans
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@900&display=swap");
+//trajan
+@import url("https://use.typekit.net/njn2mng.css");
+
+
+
+
+
+// Centralized Typography Styles
+
+body {
+  font-family: $font-body;
+  @include font-size-md;
+  line-height: 1.6;
+  color: $text;
+}
+
+h1, .h1 {
+  font-family: $font-heading;
+  font-weight: 600;
+  @include font-size-xxl;
+  line-height: 1.1;
+}
+h2, .h2 {
+  font-family: $font-heading;
+  font-weight: 600;
+  @include font-size-xl;
+  line-height: 1.15;
+}
+h3, .h3 {
+  font-family: $font-heading;
+  font-weight: 600;
+  @include font-size-lg;
+  line-height: 1.2;
+}
+h4, .h4 {
+  font-family: $font-heading;
+  font-weight: 400;
+  @include font-size-md;
+  line-height: 1.25;
+}
+h5, .h5 {
+  font-family: $font-heading;
+  font-weight: 400;
+  @include font-size-sm;
+  line-height: 1.3;
+}
+h6, .h6 {
+  font-family: $font-heading;
+  font-weight: 400;
+  @include font-size-xs;
+  line-height: 1.35;
+}
+
+p, .text-body {
+  font-family: $font-body;
+  @include font-size-md;
+  line-height: 1.6;
+}
+
+.font-heading {
+  font-family: $font-heading !important;
+}
+.font-body {
+  font-family: $font-body !important;
+}
+.font-alt {
+  font-family: $font-alt !important;
+}
+
+.font-weight-400 { font-weight: 400 !important; }
+.font-weight-500 { font-weight: 500 !important; }
+.font-weight-600 { font-weight: 600 !important; }
+.font-weight-700 { font-weight: 700 !important; }
+.font-weight-900 { font-weight: 900 !important; }
+
+.line-height-1 { line-height: 1 !important; }
+.line-height-11 { line-height: 1.1 !important; }
+.line-height-12 { line-height: 1.2 !important; }
+.line-height-13 { line-height: 1.3 !important; }
+.line-height-14 { line-height: 1.4 !important; }
+.line-height-15 { line-height: 1.5 !important; }
+.line-height-16 { line-height: 1.6 !important; }
+
+

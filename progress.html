@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logo Progress Bars</title>
+  <style>
+    .logo-progress {
+      width: 180px;
+      margin: 24px;
+      display: inline-block;
+      vertical-align: top;
+      text-align: center;
+    }
+    .logo-progress svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 8px;
+    }
+    .logo-bg {
+      stroke: #eee;
+      stroke-width: 16;
+      fill: none;
+    }
+    .logo-fg {
+      stroke-width: 16;
+      fill: none;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s;
+    }
+    .label {
+      font-family: sans-serif;
+      font-size: 1.1em;
+      margin-top: 8px;
+      display: block;
+    }
+    .percent {
+      font-family: monospace;
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
+</head>
+<body style="background:#f9f9f9;">
+
+<div class="logo-progress">
+  <!-- HTML5 Logo Progress -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+	<path fill="#e44d26" d="M71.357 460.819L30.272 0h451.456l-41.129 460.746L255.724 512z"/>
+	<path fill="#f16529" d="M405.388 431.408l35.148-393.73H256v435.146z"/>
+	<path fill="#ebebeb" d="M142 176.3h114v45.4h-64.2l4.2 46.5h60v45.3H154.4M156.4 336.3H202l3.2 36.3 50.8 13.6v47.4l-93.2-26"/>
+	<path fill="#fff" d="M369.6 176.3H255.8v45.4h109.6M361.3 268.2H255.8v45.4h56l-5.3 59-50.7 13.6v47.2l93-25.8"/>
+</svg>
+  <span class="label">HTML5 <span class="percent">100%</span></span>
+</div>
+
+<div class="logo-progress">
+  <!-- CSS3 Logo Progress -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+	<path fill="#264de4" d="M71.357 460.819L30.272 0h451.456l-41.129 460.746L255.724 512z"/>
+	<path fill="#2965f1" d="M405.388 431.408l35.148-393.73H256v435.146z"/>
+	<path fill="#ebebeb" d="M124.46 208.59l5.065 56.517H256V208.59zM119.419 150.715H256V94.197H114.281zM256 355.372l-.248.066-62.944-16.996-4.023-45.076h-56.736l7.919 88.741 115.772 32.14.26-.073z"/>
+	<path fill="#fff" d="M255.805 208.59v56.517H325.4l-6.56 73.299-63.035 17.013v58.8l115.864-32.112.85-9.549 13.28-148.792 1.38-15.176 10.203-114.393H255.805v56.518h79.639L330.3 208.59z"/>
+</svg>
+  <span class="label">CSS3 <span class="percent">100%</span></span>
+</div>
+
+<div class="logo-progress">
+  <!-- JavaScript Logo Progress -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+	<path fill="#d3b62a" d="M71.357 460.819L30.272 0h451.456l-41.129 460.746L255.724 512z"/>
+	<path fill="#fbd725" d="M405.388 431.408l35.148-393.73H256v435.146z"/>
+	<path fill="#ebebeb" d="M124.46 208.59l5.065 56.517H256V208.59zM119.419 150.715H256V94.197H114.281zM256 355.372l-.248.066-62.944-16.996-4.023-45.076h-56.736l7.919 88.741 115.772 32.14.26-.073z"/>
+	<path fill="#fff" d="M255.805 208.59v56.517H325.4l-6.56 73.299-63.035 17.013v58.8l115.864-32.112.85-9.549 13.28-148.792 1.38-15.176 10.203-114.393H255.805v56.518h79.639L330.3 208.59z"/>
+</svg>
+  <span class="label">JavaScript <span class="percent">92%</span></span>
+</div>
+
+<script>
+  // Helper to set progress on a path
+  function setProgress(pathId, percent) {
+    const path = document.getElementById(pathId);
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length * (1 - percent / 100);
+  }
+
+  // Set progress for each logo
+  setProgress('html5-progress', 100);
+  setProgress('css3-progress', 100);
+  setProgress('js-progress', 92);
+</script>
+</body>
+</html>
