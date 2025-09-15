@@ -77,7 +77,10 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## License
 
-MIT
+
+Copyright © 2025 Riad Kilani. All rights reserved.
+
+Unauthorized copying, distribution, modification, or use of this software, in whole or in part, is strictly prohibited without the express written permission of the copyright holder. This software and its associated documentation files are protected by international copyright laws and treaties. Any unauthorized use may result in civil and criminal penalties to the fullest extent permitted by law.
 
 ---
 
