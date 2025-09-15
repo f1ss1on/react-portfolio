@@ -12,7 +12,12 @@
 //Header
 .site-header {
   background: #333;
-  margin: 0 -100%;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 
   .container {
     padding: 20px 5vw;
@@ -25,7 +30,7 @@
     .site-branding {
       a {
         display: block;
-        width: min(40vw, 400px);
+        width: min(50vw, 400px);
         height: min(15vw, 77px);
         background: url(../assets/images/riad-kilani-logo.png) no-repeat center center;
         background-size: contain;
@@ -121,11 +126,6 @@
     padding: 12px 3vw;
   }
 
-  .site-header .site-branding a {
-    width: min(50vw, 300px);
-    height: min(12vw, 60px);
-  }
-
   .site-header nav {
     position: absolute;
     top: 100%;
@@ -140,20 +140,24 @@
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
+
     ul {
       flex-direction: column;
       gap: 12px;
       padding: 24px 12px;
       align-items: stretch;
+
       a {
         text-align: left;
         display: block;
         padding: 12px 14px;
         font-size: 15px;
         background: none !important;
+
         &:hover {
           background: #555;
         }
+
         &.active {
           background: #2b72c9;
         }
@@ -177,11 +181,6 @@
   .site-header .container {
     flex-direction: row;
     padding: 8px 2vw;
-
-    .site-branding a {
-      width: min(70vw, 180px);
-      height: min(16vw, 40px);
-    }
   }
 
   .site-header nav {
@@ -200,9 +199,10 @@
   }
 
   .site-header .menu-toggle {
-    width: 36px;
-    height: 36px;
-    right: 8px;
+    width: 40px;
+    height: 40px;
+    right: 15px;
+    padding: 0;
 
     i {
       font-size: 18px;

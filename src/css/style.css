@@ -716,6 +716,11 @@ input[type=submit]:hover {
   padding: 0 2rem;
 }
 
+@media (max-width: 600px) {
+  #root {
+    padding: 0 1rem;
+  }
+}
 #main-content {
   opacity: 1;
   transition: opacity 0.3s;
@@ -755,7 +760,12 @@ input[type=submit]:hover {
  */
 .site-header {
   background: #333;
-  margin: 0 -100%;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 .site-header .container {
   padding: 20px 5vw;
@@ -767,7 +777,7 @@ input[type=submit]:hover {
 }
 .site-header .container .site-branding a {
   display: block;
-  width: min(40vw, 400px);
+  width: min(50vw, 400px);
   height: min(15vw, 77px);
   background: url(../assets/images/riad-kilani-logo.png) no-repeat center center;
   background-size: contain;
@@ -842,10 +852,6 @@ input[type=submit]:hover {
     flex-direction: row;
     padding: 12px 3vw;
   }
-  .site-header .site-branding a {
-    width: min(50vw, 300px);
-    height: min(12vw, 60px);
-  }
   .site-header nav {
     position: absolute;
     top: 100%;
@@ -895,10 +901,6 @@ input[type=submit]:hover {
     flex-direction: row;
     padding: 8px 2vw;
   }
-  .site-header .container .site-branding a {
-    width: min(70vw, 180px);
-    height: min(16vw, 40px);
-  }
   .site-header nav {
     max-width: 220px;
   }
@@ -912,9 +914,10 @@ input[type=submit]:hover {
     letter-spacing: 0.3px;
   }
   .site-header .menu-toggle {
-    width: 36px;
-    height: 36px;
-    right: 8px;
+    width: 40px;
+    height: 40px;
+    right: 15px;
+    padding: 0;
   }
   .site-header .menu-toggle i {
     font-size: 18px;
@@ -933,9 +936,13 @@ input[type=submit]:hover {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   padding: 40px 0;
   box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.15), 0 -4px 20px rgba(142, 36, 170, 0.1);
-  position: relative;
   overflow: hidden;
-  margin: 0 -100%;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 .site-footer::before {
   content: "";

@@ -1,16 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const values = [true, "sm-down", "md-down", "lg-down", "xl-down", "xxl-down"];
 const PortfolioModal = ({ modalOpen, modalProject, closeModal }) => {
-  const [fullscreen, setFullscreen] = useState(true);
-  const [show, setShow] = useState(false);
-
-  function handleShow(breakpoint) {
-    setFullscreen(breakpoint);
-    setShow(true);
-  }
+  const fullscreen = true;
   return (
     <Modal
       show={modalOpen}
@@ -65,26 +58,35 @@ const PortfolioModal = ({ modalOpen, modalProject, closeModal }) => {
                 </div>
               </div>
             )}
-            {modalProject.addimg && typeof modalProject.addimg === "string" && modalProject.addimg.trim().length > 0 && (
-              <div className="additional-project-img">
-                {modalProject.addimg.split(',').map((img, idx) => {
-                  const trimmed = img.trim();
-                  return (
-                    <img
-                      key={idx}
-                      src={trimmed.startsWith("http") ? trimmed : `/images/${trimmed}`}
-                      alt={modalProject.title + " additional " + (idx + 1)}
-                      loading="lazy"
-                    />
-                  );
-                })}
-              </div>
-            )}
+            {(() => {
+              if (
+                typeof modalProject.addimg === "string" &&
+                modalProject.addimg.trim().length > 0
+              ) {
+                return (
+                  <div className="additional-project-img">
+                    {modalProject.addimg.split(",").map((img, idx) => {
+                      const trimmed = typeof img === "string" ? img.trim() : "";
+                      if (!trimmed) return null;
+                      return (
+                        <img
+                          key={idx}
+                          src={trimmed.startsWith("http") ? trimmed : `/images/${trimmed}`}
+                          alt={modalProject.title + " additional " + (idx + 1)}
+                          loading="lazy"
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              }
+              return null;
+            })()}
             {/* Third row: tech-used */}
             <div className="tech-used">
               <strong>Technologies Used:</strong>
               <ul className="project-tech-list">
-                {modalProject.tech.map((t, i) => (
+                {(modalProject.tech || []).map((t, i) => (
                   <li key={i}>
                     <i className={t.icon}></i> {t.name}
                   </li>
