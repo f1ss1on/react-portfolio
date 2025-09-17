@@ -82,13 +82,9 @@ const Sidebar = () => {
               ))
             : categories.map((cat) => (
                 <li key={cat.id}>
-                  <a
-                    href={`https://blog.riadkilani.com/category/${cat.slug}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Link to={`/blog/category/${cat.slug}`}>
                     {cat.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
         </ul>

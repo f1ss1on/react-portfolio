@@ -17,34 +17,33 @@ const Blog = ({ setPageTitle }) => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [search, setSearch] = useState("");
+  const [catOpen, setCatOpen] = useState(false);
 
   const contentRef = useRef(null);
 
   useEffect(() => {
     if (slug) {
       setLoading(true);
-      setTimeout(() => {
-        fetch(`https://blog.riadkilani.com/wp-json/wp/v2/posts?slug=${slug}&_embed`)
-          .then((res) => {
-            if (!res.ok) throw new Error("Post not found");
-            return res.json();
-          })
-          .then((data) => {
-            if (Array.isArray(data) && data.length > 0) {
-              setPost(data[0]);
-              if (setPageTitle) setPageTitle(data[0].title.rendered.replace(/<[^>]+>/g, ""));
-            } else {
-              setError("Post not found");
-              if (setPageTitle) setPageTitle(null);
-            }
-            setLoading(false);
-          })
-          .catch((err) => {
-            setError(err.message);
-            setLoading(false);
+      fetch(`https://blog.riadkilani.com/wp-json/wp/v2/posts?slug=${slug}&_embed`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Post not found");
+          return res.json();
+        })
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            setPost(data[0]);
+            if (setPageTitle) setPageTitle(data[0].title.rendered.replace(/<[^>]+>/g, ""));
+          } else {
+            setError("Post not found");
             if (setPageTitle) setPageTitle(null);
-          });
-      }, 2000);
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+          if (setPageTitle) setPageTitle(null);
+        });
     }
   }, [slug, setPageTitle]);
 
@@ -130,110 +129,162 @@ const Blog = ({ setPageTitle }) => {
   }
 
   return (
-    <main className="blog-post-main blog-post-page">
-      <div className="content-sidebar-wrapper">
-        <section className="single-content blog-content">
-          <div className="breadcrumbs">
-            <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{" "}
-            {post.title.rendered}
-          </div>
-          <article className="blog-full">
-            <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-            {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
-              <img
-                src={post._embedded["wp:featuredmedia"][0].source_url}
-                alt={post.title.rendered}
-                style={{ maxWidth: "100%", borderRadius: 8, marginBottom: 24 }}
-              />
-            )}
-            <div
-              className="blog-post-content"
-              ref={contentRef}
-              dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-            />
-          </article>
-        </section>
-
-        <aside className="sidebar-wrapper blog-sidebar">
-          <div className="widget">
-            <form onSubmit={handleSearch} style={{ marginBottom: "1.5rem" }}>
-              <input
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </form>
-          </div>
-          <div className="widget">
-            <div className="widget-title">Recent Posts</div>
-            <ul>
-              {recent.map((post) => (
-                <li key={post.id}>
-                  <Link to={`/blog/${post.slug}`}>
-                    {post.title.rendered.replace(/<[^>]+>/g, "")}
+    <>
+      {/* Desktop categories nav */}
+      {categories.length > 0 && (
+        <nav className="blog-nav" aria-label="Blog Navigation">
+          <div className="container">
+            <ul className="blog-navigation">
+              {categories.map(cat => (
+                <li key={cat.id}>
+                  <Link
+                    to={`/blog/category/${cat.slug}`}
+                    className="blog-category-link"
+                    onClick={() => setCatOpen(false)}
+                  >
+                    {cat.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="widget">
-            <div className="widget-title">Categories</div>
-            <ul>
-              {categories.map((cat) => (
+        </nav>
+      )}
+      <main className="blog-post-main blog-post-page">
+        {/* Mobile categories nav with toggle */}
+        {categories.length > 0 && (
+          <nav className="mobile-category-nav" aria-label="Mobile Categories">
+            <button
+              className="mobile-cat-toggle"
+              aria-label={catOpen ? "Hide categories" : "Show categories"}
+              aria-expanded={catOpen}
+              aria-controls="mobile-cat-list"
+              type="button"
+              onClick={() => setCatOpen((open) => !open)}
+            >
+              Categories ☰
+            </button>
+            <ul
+              id="mobile-cat-list"
+              className={`mobile-cat-list${catOpen ? ' open' : ''}`}
+            >
+              {categories.map(cat => (
                 <li key={cat.id}>
-                  <a
-                    href={`https://blog.riadkilani.com/category/${cat.slug}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to={`/blog/category/${cat.slug}`}
+                    className="mobile-cat-link"
+                    onClick={() => setCatOpen(false)}
                   >
                     {cat.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="widget widget_block">
-            <div className="widget-title">Tags</div>
-            <p className="wp-block-tag-cloud">
-              {tags.map((tag) => (
-                <a
-                  key={tag.id}
-                  href={`https://blog.riadkilani.com/tag/${tag.slug}/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {tag.name}
-                </a>
-              ))}
-            </p>
-          </div>
-          <div className="widget">
-            <div className="widget-title">Links</div>
-            <ul>
-              <li>
-                <a
-                  href="https://riadkilani.com/#/portfolio"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Portfolio
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://blog.riadkilani.com/contact/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-        </aside>
-      </div>
-    </main>
+          </nav>
+        )}
+        <div className="breadcrumbs">
+          <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{" "}
+          {post.title.rendered}
+        </div>
+        <div className="content-sidebar-wrapper">
+          <section className="single-content blog-content">
+            <article className="blog-full">
+              <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+              {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
+                <img
+                  src={post._embedded["wp:featuredmedia"][0].source_url}
+                  alt={post.title.rendered}
+                  style={{ maxWidth: "100%", borderRadius: 8, marginBottom: 24 }}
+                />
+              )}
+              <div
+                className="blog-post-content"
+                ref={contentRef}
+                dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+              />
+            </article>
+          </section>
+          <aside className="sidebar-wrapper blog-sidebar">
+            <div className="widget">
+              <form onSubmit={handleSearch} style={{ marginBottom: "1.5rem" }}>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </form>
+            </div>
+            <div className="widget">
+              <div className="widget-title">Recent Posts</div>
+              <ul>
+                {recent.map((post) => (
+                  <li key={post.id}>
+                    <Link to={`/blog/${post.slug}`}>
+                      {post.title.rendered.replace(/<[^>]+>/g, "")}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="widget">
+              <div className="widget-title">Categories</div>
+              <ul>
+                {categories.map((cat) => (
+                  <li key={cat.id}>
+                    <a
+                      href={`https://blog.riadkilani.com/category/${cat.slug}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {cat.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="widget widget_block">
+              <div className="widget-title">Tags</div>
+              <p className="wp-block-tag-cloud">
+                {tags.map((tag) => (
+                  <a
+                    key={tag.id}
+                    href={`https://blog.riadkilani.com/tag/${tag.slug}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {tag.name}
+                  </a>
+                ))}
+              </p>
+            </div>
+            <div className="widget">
+              <div className="widget-title">Links</div>
+              <ul>
+                <li>
+                  <a
+                    href="https://riadkilani.com/#/portfolio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Portfolio
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://blog.riadkilani.com/contact/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </>
   );
 };
 

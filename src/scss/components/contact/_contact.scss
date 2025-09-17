@@ -13,9 +13,9 @@
   max-width: 900px;
   margin: 0 auto;
   padding: $gap-lg $gap;
-  background: $background-light;
-  border-radius: $radius-lg;
-  box-shadow: 0 4px 24px rgba($primary, 0.09);
+  //background: $background-light;
+  //border-radius: $radius-lg;
+  //box-shadow: 0 4px 24px rgba($primary, 0.09);
 
   h1 {
     @include font-size-xxl;
@@ -130,6 +130,7 @@
         font-weight: 600;
         color: $primary-dark;
         font-size: 15px;
+        width: 100%;
         i {
           margin-right: 6px;
           color: $accent;

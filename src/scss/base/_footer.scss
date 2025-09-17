@@ -62,8 +62,7 @@
       background: url(../assets/images/riad-kilani-logo.png) no-repeat center center;
       background-size: contain;
       overflow: hidden;
-      text-indent: -1000px;
-      margin-bottom: 20px;
+      text-indent: -1000px;      
       filter: drop-shadow(0 3px 12px rgba($accent, 0.2));
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
@@ -202,7 +201,6 @@
     }
 
     .socials {
-      margin-top: 20px;
       display: flex;
       gap: 16px;
       justify-content: end;
@@ -267,6 +265,13 @@
     letter-spacing: 0.5px;
     opacity: 0.8;
   }
+}
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px;
 }
 
 // Responsive styles

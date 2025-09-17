@@ -64,6 +64,7 @@ const Home = () => {
         if (Array.isArray(data)) {
           setBlogPosts(data.map(post => ({
             id: post.id,
+            slug: post.slug,
             title: post.title?.rendered || '',
             date: post.date,
             excerpt: post.excerpt?.rendered?.replace(/<[^>]+>/g, '').trim() || '',
@@ -195,11 +196,11 @@ const Home = () => {
                     <article className="hblog-snippet" key={i}>
                       <div className="blog-content">
                         <h3>
-                          <Link to={`/blog/${post.id}`} dangerouslySetInnerHTML={{ __html: post.title }} />
+                          <Link to={`/blog/${post.slug}`} dangerouslySetInnerHTML={{ __html: post.title }} />
                         </h3>
                         <small>{new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</small>
                         <div className="excerpt-with-image">
-                          <p>{post.excerpt} <Link to={`/blog/${post.id}`}>Read More</Link></p>
+                          <p>{post.excerpt} <Link to={`/blog/${post.slug}`}>Read More</Link></p>
                           <div className="blog-featured-image">
                             <img src={post.img} alt={post.title} loading="lazy" />
                           </div>

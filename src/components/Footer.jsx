@@ -17,8 +17,9 @@ const Footer = () => (
           <a href="https://x.com/f1ss1on" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-x-twitter"></i></a>
           <a href="https://codepen.io/f1ss1on" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-codepen"></i></a>
         </div>
-      </div>
+      </div>      
     </div>
+    <div className="copyright">© {new Date().getFullYear()} Riad Kilani. All rights reserved.</div>
   </footer>
 );
 
