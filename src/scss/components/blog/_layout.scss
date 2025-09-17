@@ -1,3 +1,4 @@
+
 /*!
  * Partial: _layout.scss
  * Purpose: Styles for the blog layout, main content, sidebar, breadcrumbs, and navigation.
@@ -14,104 +15,127 @@
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
-nav.blog-nav {
-    background-color: #2b72c9;
-    position: relative;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-}
-
-ul.blog-navigation {
+// Blog Navigation (Desktop & Mobile)
+.blog-nav {
+  background-color: #2b72c9;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  z-index: 20;
+  .container {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .blog-nav-toggle {
+    display: none;
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin: 10px 10px 6px 10px;
+    transition: background 0.2s;
+    &:hover,
+    &:focus {
+      background: #005177;
+      outline: none;
+    }
+  }
+  .blog-navigation {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-}
-
-ul.blog-navigation li {
     list-style: none;
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
-    padding: 10px 12px;
-}
-
-nav.blog-nav .container {padding: 0;/* margin: 0; */}
-
-ul.blog-navigation li a {
-    padding: 10px 15px;
-    color: #fff;
-    text-decoration: none;
-}
-
-ul.blog-navigation li a:hover {
-    background-color: white;
-    color: #2b72c9;
-}
-
-a.blog-category-link {}
-
-ul.blog-navigation li a:active {
-    background-color: white;
-    color: #2b72c9;
-}
-.mobile-category-nav {
-    display: none;
-    margin-bottom: 1em;
-
-    @media (max-width: 768px) {
-      display: block;
-    }
-
-    .mobile-cat-toggle {
-      background: #0073aa;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-size: 1em;
-      cursor: pointer;
-      margin: 10px 10px 6px 10px;
-    }
-
-    .mobile-cat-list {
-      list-style: none;
+    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+    max-height: 200px;
+    opacity: 1;
+    overflow: visible;
+    li {
       margin: 0;
       padding: 0;
-      max-height: 0;
-      overflow: hidden;
-      -webkit-transition: max-height 0.3s ease-in-out;
-      transition: max-height 0.3s ease-in-out;
-      background: #f8f8f8;
-      border-radius: 4px;
-      -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-
-      &.open {
-        max-height: 600px;
-        padding: 8px 0;
-      }
-
-      li {
-        padding: 6px 16px;
-      }
-
+      white-space: nowrap;
+      padding: 10px 12px;
       a {
-        color: #0073aa;
-        text-decoration: none;
-        display: block;
-
-        &:hover {
-          color: #005177;
+        padding: 10px 15px;
+        color: #fff;
+        text-decoration: none !important;
+        border-radius: 4px;
+        transition: background 0.2s, color 0.2s;
+        &.active {
+          background-color: #fff;
+          color: #2b72c9;
+          font-weight: 700;
+          box-shadow: 0 2px 8px rgba(43, 114, 201, 0.08);
+        }
+        &:hover,
+        &:focus {
+          background-color: white;
+          color: #2b72c9;
           text-decoration: underline;
+        }
+        &:active {
+          background-color: white;
+          color: #2b72c9;
         }
       }
     }
   }
+  // Mobile styles
+  @media (max-width: 768px) {
+    .container {
+      align-items: stretch;
+    }
+    .blog-nav-toggle {
+      display: block;
+    }
+    .blog-navigation {
+      flex-direction: column;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      margin: 0;
+      transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      li {
+        padding: 10px 0 10px 16px;
+        a {
+          color: #0073aa;
+          background: none;
+          text-decoration: none !important;
+          &:hover,
+          &:focus {
+            color: #005177;
+            background: #e6f0fa;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    &.open .blog-navigation,
+    .blog-navigation.open {
+      max-height: 600px;
+      opacity: 1;
+      background: #f8f8f8;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      margin: 0 10px 10px 10px;
+      padding: 8px 0;
+      transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+    }
+  }
+}
+// Breadcrumbs
 
 .breadcrumbs {
   font-size: 0.95em;

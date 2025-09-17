@@ -7,6 +7,7 @@ import Portfolio from './components/portfolio/Portfolio';
 import BlogIndex from './components/blog/BlogIndex';
 import Blog from './components/blog/Blog';
 import BlogArchive from './components/blog/BlogArchive';
+import BlogTagArchive from './components/blog/BlogTagArchive';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Contact from './components/contact/Contact';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/category/:category" element={<BlogArchive />} />
+        <Route path="/blog/tag/:tag" element={<BlogTagArchive />} />
         <Route path="/blog/:slug" element={<Blog setPageTitle={setPostTitle} />} />
         <Route path="/contact" element={<Contact />} />
         {/* Add more routes as needed */}

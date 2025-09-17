@@ -4,14 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import { Skeleton, SkeletonBlock } from "../Skeleton";
 import Sidebar from "./Sidebar";
 
-const BlogArchive = () => {
-  const { category } = useParams();
+const BlogTagArchive = () => {
+  const { tag } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
   const [navOpen, setNavOpen] = useState(false);
-  const categoryName = category ? category.replace(/-/g, ' ') : 'All';
+  const tagName = tag ? tag.replace(/-/g, ' ') : 'All';
 
   useEffect(() => {
     fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100")
@@ -23,31 +23,54 @@ const BlogArchive = () => {
 
   useEffect(() => {
     setLoading(true);
-    // Find the category ID from the slug
-    let catId = null;
-    if (category && categories.length > 0) {
-      const found = categories.find((cat) => cat.slug === category);
-      if (found) catId = found.id;
+    // Find the tag ID from the slug
+    let tagId = null;
+    if (tag) {
+      // Fetch tag id from WP REST API
+      // We'll fetch the tag object directly
+      // (could be optimized by passing tag id in route, but this is robust)
+      fetch(`https://blog.riadkilani.com/wp-json/wp/v2/tags?slug=${tag}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            tagId = data[0].id;
+            let url = `https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed&tags=${tagId}`;
+            fetch(url)
+              .then((res) => {
+                if (!res.ok) throw new Error("Failed to fetch posts");
+                return res.json();
+              })
+              .then((data) => {
+                setPosts(data);
+                setLoading(false);
+              })
+              .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+              });
+          } else {
+            setPosts([]);
+            setLoading(false);
+          }
+        });
+    } else {
+      // No tag, show all posts
+      let url = "https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed";
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch posts");
+          return res.json();
+        })
+        .then((data) => {
+          setPosts(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     }
-    let url = "https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed";
-    if (catId) {
-      url += `&categories=${catId}`;
-    }
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch posts");
-        return res.json();
-      })
-      .then((data) => {
-        setPosts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [category, categories]);
-
+  }, [tag]);
 
   if (loading || error) {
     return (
@@ -89,7 +112,7 @@ const BlogArchive = () => {
               type="button"
               onClick={() => setNavOpen((open) => !open)}
             >
-              Categories 
+              Categories  ￾
             </button>
             <ul
               id="blog-nav-list"
@@ -99,7 +122,7 @@ const BlogArchive = () => {
                 <li key={cat.id}>
                   <Link
                     to={`/blog/category/${cat.slug}`}
-                    className={`blog-category-link${cat.slug === category ? ' active' : ''}`}
+                    className={`blog-category-link`}
                     onClick={() => setNavOpen(false)}
                   >
                     {cat.name}
@@ -112,15 +135,15 @@ const BlogArchive = () => {
       )}
       <main className="container blog-index-page">
         <div className="page-header">
-          <h2 id="page-title">Latest Posts in {categoryName}</h2>
-          <p>Intereseted in {categoryName}? Read more here.</p>
+          <h2 id="page-title">Latest Posts tagged '{tagName}'</h2>
+          <p>Interested in {tagName}? Read more here.</p>
         </div>
         <div className="breadcrumbs">
-          <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{" "}
-          {categoryName}
+          <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{' '}
+          Tag: {tagName}
         </div>
         <div className="content-sidebar-wrapper">
-          <section className="listing-content blog-content">          
+          <section className="listing-content blog-content">
             <ul className="blog-index-list">
               {posts.map((post) => (
                 <li key={post.id} className="blog-index-item">
@@ -160,4 +183,4 @@ const BlogArchive = () => {
   );
 };
 
-export default BlogArchive;
+export default BlogTagArchive;

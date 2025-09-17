@@ -4,24 +4,27 @@ import { useParams, Link } from "react-router-dom";
 import { Skeleton, SkeletonBlock } from "../Skeleton";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
+import Sidebar from "./Sidebar";
 
 const Blog = ({ setPageTitle }) => {
+  // Blog navigation state
+  const [categories, setCategories] = useState([]);
+  const [navOpen, setNavOpen] = useState(false);
   // BlogPost logic
-  const { slug } = useParams();
+  const { slug, category } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Sidebar logic
-  const [recent, setRecent] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [search, setSearch] = useState("");
-  const [catOpen, setCatOpen] = useState(false);
-
   const contentRef = useRef(null);
 
   useEffect(() => {
+    // Fetch categories for nav
+    fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setCategories(data.filter((cat) => cat.count > 0));
+      });
     if (slug) {
       setLoading(true);
       fetch(`https://blog.riadkilani.com/wp-json/wp/v2/posts?slug=${slug}&_embed`)
@@ -83,36 +86,7 @@ const Blog = ({ setPageTitle }) => {
     });
   }, [post]);
 
-  useEffect(() => {
-    fetch("https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=5")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setRecent(data);
-      });
-    fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data))
-          setCategories(data.filter((cat) => cat.count > 0));
-      });
-    fetch(
-      "https://blog.riadkilani.com/wp-json/wp/v2/tags?per_page=20&orderby=count&order=desc"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setTags(data.filter((tag) => tag.count > 0));
-      });
-  }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (search.trim()) {
-      window.open(
-        `https://blog.riadkilani.com/?s=${encodeURIComponent(search)}`,
-        "_blank"
-      );
-    }
-  };
 
 
   if (loading || error || !post) {
@@ -130,17 +104,29 @@ const Blog = ({ setPageTitle }) => {
 
   return (
     <>
-      {/* Desktop categories nav */}
       {categories.length > 0 && (
-        <nav className="blog-nav" aria-label="Blog Navigation">
+        <nav className={`blog-nav${navOpen ? ' open' : ''}`} aria-label="Blog Navigation">
           <div className="container">
-            <ul className="blog-navigation">
+            <button
+              className="blog-nav-toggle"
+              aria-label={navOpen ? "Hide categories" : "Show categories"}
+              aria-expanded={navOpen}
+              aria-controls="blog-nav-list"
+              type="button"
+              onClick={() => setNavOpen((open) => !open)}
+            >
+              Categories &#9776;
+            </button>
+            <ul
+              id="blog-nav-list"
+              className={`blog-navigation${navOpen ? ' open' : ''}`}
+            >
               {categories.map(cat => (
                 <li key={cat.id}>
                   <Link
                     to={`/blog/category/${cat.slug}`}
                     className="blog-category-link"
-                    onClick={() => setCatOpen(false)}
+                    onClick={() => setNavOpen(false)}
                   >
                     {cat.name}
                   </Link>
@@ -151,37 +137,6 @@ const Blog = ({ setPageTitle }) => {
         </nav>
       )}
       <main className="blog-post-main blog-post-page">
-        {/* Mobile categories nav with toggle */}
-        {categories.length > 0 && (
-          <nav className="mobile-category-nav" aria-label="Mobile Categories">
-            <button
-              className="mobile-cat-toggle"
-              aria-label={catOpen ? "Hide categories" : "Show categories"}
-              aria-expanded={catOpen}
-              aria-controls="mobile-cat-list"
-              type="button"
-              onClick={() => setCatOpen((open) => !open)}
-            >
-              Categories ☰
-            </button>
-            <ul
-              id="mobile-cat-list"
-              className={`mobile-cat-list${catOpen ? ' open' : ''}`}
-            >
-              {categories.map(cat => (
-                <li key={cat.id}>
-                  <Link
-                    to={`/blog/category/${cat.slug}`}
-                    className="mobile-cat-link"
-                    onClick={() => setCatOpen(false)}
-                  >
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
         <div className="breadcrumbs">
           <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{" "}
           {post.title.rendered}
@@ -204,88 +159,12 @@ const Blog = ({ setPageTitle }) => {
               />
             </article>
           </section>
-          <aside className="sidebar-wrapper blog-sidebar">
-            <div className="widget">
-              <form onSubmit={handleSearch} style={{ marginBottom: "1.5rem" }}>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </form>
-            </div>
-            <div className="widget">
-              <div className="widget-title">Recent Posts</div>
-              <ul>
-                {recent.map((post) => (
-                  <li key={post.id}>
-                    <Link to={`/blog/${post.slug}`}>
-                      {post.title.rendered.replace(/<[^>]+>/g, "")}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="widget">
-              <div className="widget-title">Categories</div>
-              <ul>
-                {categories.map((cat) => (
-                  <li key={cat.id}>
-                    <a
-                      href={`https://blog.riadkilani.com/category/${cat.slug}/`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {cat.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="widget widget_block">
-              <div className="widget-title">Tags</div>
-              <p className="wp-block-tag-cloud">
-                {tags.map((tag) => (
-                  <a
-                    key={tag.id}
-                    href={`https://blog.riadkilani.com/tag/${tag.slug}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {tag.name}
-                  </a>
-                ))}
-              </p>
-            </div>
-            <div className="widget">
-              <div className="widget-title">Links</div>
-              <ul>
-                <li>
-                  <a
-                    href="https://riadkilani.com/#/portfolio"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Portfolio
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://blog.riadkilani.com/contact/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </aside>
+          <Sidebar />
         </div>
       </main>
     </>
   );
 };
 
+// ...existing code...
 export default Blog;

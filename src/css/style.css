@@ -861,7 +861,7 @@ input[type=submit]:hover {
     transform: translateX(100%);
     transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
     box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    z-index: 100;
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -3610,7 +3610,7 @@ input[type=submit]:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
-nav.blog-nav {
+.blog-nav {
   background-color: #2b72c9;
   position: relative;
   width: 100vw;
@@ -3618,91 +3618,112 @@ nav.blog-nav {
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
+  z-index: 20;
 }
-
-ul.blog-navigation {
+.blog-nav .container {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.blog-nav .blog-nav-toggle {
+  display: none;
+  background: #0073aa;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 4px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin: 10px 10px 6px 10px;
+  transition: background 0.2s;
+}
+.blog-nav .blog-nav-toggle:hover, .blog-nav .blog-nav-toggle:focus {
+  background: #005177;
+  outline: none;
+}
+.blog-nav .blog-navigation {
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-}
-
-ul.blog-navigation li {
   list-style: none;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+  max-height: 200px;
+  opacity: 1;
+  overflow: visible;
+}
+.blog-nav .blog-navigation li {
   margin: 0;
   padding: 0;
   white-space: nowrap;
   padding: 10px 12px;
 }
-
-nav.blog-nav .container {
-  padding: 0; /* margin: 0; */
-}
-
-ul.blog-navigation li a {
+.blog-nav .blog-navigation li a {
   padding: 10px 15px;
   color: #fff;
-  text-decoration: none;
+  text-decoration: none !important;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
 }
-
-ul.blog-navigation li a:hover {
+.blog-nav .blog-navigation li a.active {
+  background-color: #fff;
+  color: #2b72c9;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(43, 114, 201, 0.08);
+}
+.blog-nav .blog-navigation li a:hover, .blog-nav .blog-navigation li a:focus {
   background-color: white;
   color: #2b72c9;
+  text-decoration: underline;
 }
-
-ul.blog-navigation li a:active {
+.blog-nav .blog-navigation li a:active {
   background-color: white;
   color: #2b72c9;
-}
-
-.mobile-category-nav {
-  display: none;
-  margin-bottom: 1em;
 }
 @media (max-width: 768px) {
-  .mobile-category-nav {
+  .blog-nav .container {
+    align-items: stretch;
+  }
+  .blog-nav .blog-nav-toggle {
     display: block;
   }
-}
-.mobile-category-nav .mobile-cat-toggle {
-  background: #0073aa;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-  margin: 10px 10px 6px 10px;
-}
-.mobile-category-nav .mobile-cat-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 0;
-  overflow: hidden;
-  -webkit-transition: max-height 0.3s ease-in-out;
-  transition: max-height 0.3s ease-in-out;
-  background: #f8f8f8;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-}
-.mobile-category-nav .mobile-cat-list.open {
-  max-height: 600px;
-  padding: 8px 0;
-}
-.mobile-category-nav .mobile-cat-list li {
-  padding: 6px 16px;
-}
-.mobile-category-nav .mobile-cat-list a {
-  color: #0073aa;
-  text-decoration: none;
-  display: block;
-}
-.mobile-category-nav .mobile-cat-list a:hover {
-  color: #005177;
-  text-decoration: underline;
+  .blog-nav .blog-navigation {
+    flex-direction: column;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+  }
+  .blog-nav .blog-navigation li {
+    padding: 10px 0 10px 16px;
+  }
+  .blog-nav .blog-navigation li a {
+    color: #0073aa;
+    background: none;
+    text-decoration: none !important;
+  }
+  .blog-nav .blog-navigation li a:hover, .blog-nav .blog-navigation li a:focus {
+    color: #005177;
+    background: #e6f0fa;
+    text-decoration: underline;
+  }
+  .blog-nav.open .blog-navigation,
+  .blog-nav .blog-navigation.open {
+    max-height: 600px;
+    opacity: 1;
+    background: #f8f8f8;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    margin: 0 10px 10px 10px;
+    padding: 8px 0;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+  }
 }
 
 .breadcrumbs {
@@ -4225,16 +4246,17 @@ li.blog-index-item {
   line-height: 1.6;
   color: #666;
 }
-.widget .wp-block-tag-cloud,
-.widget .tagcloud {
+
+.wp-block-tag-cloud,
+.tagcloud {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin: 0;
   padding: 0;
 }
-.widget .wp-block-tag-cloud a,
-.widget .tagcloud a {
+.wp-block-tag-cloud a,
+.tagcloud a {
   display: inline-block;
   padding: 6px 12px;
   background: #f8f9fa;
@@ -4248,16 +4270,16 @@ li.blog-index-item {
   white-space: nowrap;
   position: relative;
 }
-.widget .wp-block-tag-cloud a:hover,
-.widget .tagcloud a:hover {
+.wp-block-tag-cloud a:hover,
+.tagcloud a:hover {
   background: #f8f9fa;
   color: #333;
   border-color: #2b72c9;
   transform: translateY(-2px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.widget .wp-block-tag-cloud a::after,
-.widget .tagcloud a::after {
+.wp-block-tag-cloud a::after,
+.tagcloud a::after {
   content: " (" attr(title) ")";
   font-size: 9px;
   opacity: 0.8;
@@ -4272,32 +4294,6 @@ li.blog-index-item {
   vertical-align: middle;
   min-width: 12px;
   text-align: center;
-}
-.widget .wp-block-tag-cloud a[style*="font-size: 8pt"],
-.widget .tagcloud a[style*="font-size: 8pt"] {
-  font-size: 11px !important;
-  padding: 4px 8px;
-}
-.widget .wp-block-tag-cloud a[style*="font-size: 10pt"], .widget .wp-block-tag-cloud a[style*="font-size: 12pt"],
-.widget .tagcloud a[style*="font-size: 10pt"],
-.widget .tagcloud a[style*="font-size: 12pt"] {
-  font-size: 12px !important;
-  padding: 6px 10px;
-}
-.widget .wp-block-tag-cloud a[style*="font-size: 14pt"], .widget .wp-block-tag-cloud a[style*="font-size: 16pt"],
-.widget .tagcloud a[style*="font-size: 14pt"],
-.widget .tagcloud a[style*="font-size: 16pt"] {
-  font-size: 13px !important;
-  padding: 8px 12px;
-  font-weight: 600;
-}
-.widget .wp-block-tag-cloud a[style*="font-size: 18pt"], .widget .wp-block-tag-cloud a[style*="font-size: 20pt"], .widget .wp-block-tag-cloud a[style*="font-size: 22pt"],
-.widget .tagcloud a[style*="font-size: 18pt"],
-.widget .tagcloud a[style*="font-size: 20pt"],
-.widget .tagcloud a[style*="font-size: 22pt"] {
-  font-size: 14px !important;
-  padding: 10px 14px;
-  font-weight: 700;
 }
 
 .tag-cloud {
@@ -4318,6 +4314,43 @@ li.blog-index-item {
 .tag-cloud a:hover {
   background: #1a6ed8;
   color: #fff;
+}
+
+.wp-block-tag-cloud a:after,
+.tag-cloud a:after {
+  content: " (" attr(title) ")";
+  font-size: 0.9em;
+  opacity: 0.9;
+  font-weight: 600;
+  color: #2b72c9;
+  background: rgba(43, 114, 201, 0.08);
+  padding: 2px 4px;
+  border-radius: 3px;
+  margin-left: 4px;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  min-width: 12px;
+  text-align: center;
+}
+
+.wp-block-tag-cloud a[style*="font-size: 8px"] {
+  font-size: 11px !important;
+  padding: 4px 8px;
+}
+.wp-block-tag-cloud a[style*="font-size: 10px"], .wp-block-tag-cloud a[style*="font-size: 12px"] {
+  font-size: 12px !important;
+  padding: 6px 10px;
+}
+.wp-block-tag-cloud a[style*="font-size: 14px"], .wp-block-tag-cloud a[style*="font-size: 16px"] {
+  font-size: 13px !important;
+  padding: 8px 12px;
+  font-weight: 600;
+}
+.wp-block-tag-cloud a[style*="font-size: 18px"], .wp-block-tag-cloud a[style*="font-size: 20px"], .wp-block-tag-cloud a[style*="font-size: 22px"] {
+  font-size: 14px !important;
+  padding: 10px 14px;
+  font-weight: 700;
 }
 
 /*!
@@ -4776,6 +4809,11 @@ pre:hover .copy-button {
     margin-bottom: 20px;
   }
 }
+.copy-code-btn {
+  color: #333;
+  padding: 4px 8px !important;
+}
+
 /*!
  * Partial: _imp-atf.scss
  * Purpose: Critical above-the-fold styles for fast initial render and perceived performance.
