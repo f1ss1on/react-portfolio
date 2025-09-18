@@ -71,7 +71,7 @@ const Portfolio = () => {
                 <figure className="card-head">
                   <div className="project-img-16x9">
                     <img
-                      src={`/images/${project.img}`}
+                      src={`${project.img}`}
                       alt={project.title}
                       loading="lazy"
                       onClick={() => openModal(project)}

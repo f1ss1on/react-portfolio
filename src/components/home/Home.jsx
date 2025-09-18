@@ -102,7 +102,7 @@ const Home = () => {
           </figure>
           <div className="hero-content">
             <h1 id="hero-title">I am a front-end developer based in Orlando</h1>
-            <a href="#portfolio" className="btn">View My Work</a>
+            <Link to="/portfolio" title="View Portfolio" className="btn">View My Work</Link>
           </div>
         </div>
       </section>

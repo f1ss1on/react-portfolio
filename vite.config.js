@@ -8,10 +8,12 @@ export default defineConfig({
     react(),
     viteStaticCopy({
       targets: [
+        // Copy only favicon and fonts, not images
         {
-          src: 'public/**/*',
+          src: 'favicon.*',
           dest: '.'
-        }
+        },
+        // No fonts to copy from public; handled by Vite from src/assets/fonts
       ]
     })
   ],

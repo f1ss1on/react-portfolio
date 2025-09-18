@@ -2191,7 +2191,8 @@ input[type=submit]:hover {
 .tech-used .fa-illustrator::before,
 .tech-used .fa-photoshop::before,
 .tech-used .fa-aftereffects::before,
-.tech-used .fa-indesign::before {
+.tech-used .fa-indesign::before,
+.tech-used .fa-tailwind::before {
   background-size: contain;
   content: "";
   display: inline-block;
@@ -2210,6 +2211,9 @@ input[type=submit]:hover {
 }
 .tech-used .fa-indesign::before {
   background-image: url("../assets/images/indesign-brands.svg");
+}
+.tech-used .fa-tailwind::before {
+  background-image: url("../assets/images/tailwind-brands.svg");
 }
 
 @media (max-width: 900px) {

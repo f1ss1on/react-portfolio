@@ -136,7 +136,8 @@
   .fa-illustrator,
   .fa-photoshop,
   .fa-aftereffects,
-  .fa-indesign {
+  .fa-indesign,
+  .fa-tailwind {
     &::before {
       background-size: contain;
       content: "";
@@ -165,7 +166,12 @@
     &::before {
       background-image: url("../assets/images/indesign-brands.svg");
     }
-  }  
+  }
+  .fa-tailwind {
+    &::before {
+      background-image: url("../assets/images/tailwind-brands.svg");
+    }
+  }
 }
 // Responsive styles
 @media (max-width: $bp-md) {

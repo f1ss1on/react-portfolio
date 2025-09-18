@@ -25,7 +25,7 @@ const PortfolioModal = ({ modalOpen, modalProject, closeModal }) => {
             <div className="project-row">
               <div className="main-project-img">
                 <img
-                  src={modalProject.img?.startsWith("http") ? modalProject.img : `/images/${modalProject.img}`}
+                  src={modalProject.img?.startsWith("http") ? modalProject.img : `${modalProject.img}`}
                   alt={modalProject.title}
                   loading="lazy"
                   style={{ width: "100%", borderRadius: 8, marginBottom: 0 }}
@@ -49,7 +49,7 @@ const PortfolioModal = ({ modalOpen, modalProject, closeModal }) => {
                 <div className="secondary-project-img">
                   {modalProject.secimg && (
                     <img
-                      src={modalProject.secimg.startsWith("http") ? modalProject.secimg : `/images/${modalProject.secimg}`}
+                      src={modalProject.secimg.startsWith("http") ? modalProject.secimg : `${modalProject.secimg}`}
                       alt={modalProject.title + " secondary"}
                       loading="lazy"
                       style={{ width: "100%", borderRadius: 8, marginBottom: 0 }}
@@ -71,7 +71,7 @@ const PortfolioModal = ({ modalOpen, modalProject, closeModal }) => {
                       return (
                         <img
                           key={idx}
-                          src={trimmed.startsWith("http") ? trimmed : `/images/${trimmed}`}
+                          src={trimmed.startsWith("http") ? trimmed : `${trimmed}`}
                           alt={modalProject.title + " additional " + (idx + 1)}
                           loading="lazy"
                         />
