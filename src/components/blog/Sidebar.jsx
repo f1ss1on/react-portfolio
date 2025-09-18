@@ -86,17 +86,21 @@ const Sidebar = () => {
               ))
             : (() => {
                 const TAGS_DEFAULT_COUNT = 20;
-                const counts = tags.map(tag => tag.count);
+                const counts = tags.map((tag) => tag.count);
                 const min = Math.min(...counts);
                 const max = Math.max(...counts);
                 const minFont = 9; // px
                 const maxFont = 18; // px
-                const visibleTags = showAllTags ? tags : tags.slice(0, TAGS_DEFAULT_COUNT);
+                const visibleTags = showAllTags
+                  ? tags
+                  : tags.slice(0, TAGS_DEFAULT_COUNT);
                 return [
                   ...visibleTags.map((tag) => {
                     let fontSize = minFont;
                     if (max !== min) {
-                      fontSize = minFont + ((tag.count - min) / (max - min)) * (maxFont - minFont);
+                      fontSize =
+                        minFont +
+                        ((tag.count - min) / (max - min)) * (maxFont - minFont);
                     }
                     fontSize = Math.round(fontSize);
                     return (
@@ -105,8 +109,15 @@ const Sidebar = () => {
                         href={`/blog/tag/${tag.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        title={typeof tag.count === 'number' && tag.count > 0 ? tag.count : undefined}
-                        style={{ fontSize: fontSize + 'px', verticalAlign: 'middle' }}
+                        title={
+                          typeof tag.count === "number" && tag.count > 0
+                            ? tag.count
+                            : undefined
+                        }
+                        style={{
+                          fontSize: fontSize + "px",
+                          verticalAlign: "middle",
+                        }}
                       >
                         {tag.name}
                       </a>
@@ -117,13 +128,26 @@ const Sidebar = () => {
                       key="expand-btn"
                       type="button"
                       className="tag-cloud-expand-btn"
-                      style={{ display: 'block', margin: '12px auto 0', padding: '6px 18px', borderRadius: 6, border: '1px solid #e0e0e0', background: '#f8f8f8', color: '#2b72c9', fontWeight: 600, cursor: 'pointer', fontSize: '1em' }}
+                      style={{
+                        display: "block",
+                        margin: "12px auto 0",
+                        padding: "6px 18px",
+                        borderRadius: 6,
+                        border: "1px solid #e0e0e0",
+                        background: "#f8f8f8",
+                        color: "#2b72c9",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        fontSize: "1em",
+                      }}
                       onClick={() => setShowAllTags((v) => !v)}
                       aria-expanded={showAllTags}
                     >
-                      {showAllTags ? 'Show fewer tags' : `Show all ${tags.length} tags`}
+                      {showAllTags
+                        ? "Show fewer tags"
+                        : `Show all ${tags.length} tags`}
                     </button>
-                  )
+                  ),
                 ];
               })()}
         </div>

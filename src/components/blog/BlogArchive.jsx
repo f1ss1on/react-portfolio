@@ -14,20 +14,49 @@ const BlogArchive = () => {
 
   useEffect(() => {
     setLoading(true);
-    let url = "https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed";
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch posts");
-        return res.json();
-      })
-      .then((data) => {
-        setPosts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    if (category) {
+      // Fetch category ID from slug
+      fetch(`https://blog.riadkilani.com/wp-json/wp/v2/categories?slug=${category}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            const catId = data[0].id;
+            let url = `https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed&categories=${catId}`;
+            fetch(url)
+              .then((res) => {
+                if (!res.ok) throw new Error("Failed to fetch posts");
+                return res.json();
+              })
+              .then((data) => {
+                setPosts(data);
+                setLoading(false);
+              })
+              .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+              });
+          } else {
+            setPosts([]);
+            setLoading(false);
+          }
+        });
+    } else {
+      // No category, show all posts
+      let url = "https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed";
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch posts");
+          return res.json();
+        })
+        .then((data) => {
+          setPosts(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
+    }
   }, [category]);
 
 
@@ -67,8 +96,8 @@ const BlogArchive = () => {
           <p>Intereseted in {categoryName}? Read more here.</p>
         </div>
         <div className="breadcrumbs">
-          <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{" "}
-          {categoryName}
+          <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{' '}
+          Category: {categoryName}
         </div>
         <div className="content-sidebar-wrapper">
           <section className="listing-content blog-content">          
