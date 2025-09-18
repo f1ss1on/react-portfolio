@@ -64,6 +64,14 @@
       padding: 0;
       white-space: nowrap;
       padding: 10px 12px;
+      &.blog-nav-title {
+        color: #fff;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-right: 15px;
+        font-size: 0.95em;
+      }
       a {
         padding: 10px 15px;
         color: #fff;

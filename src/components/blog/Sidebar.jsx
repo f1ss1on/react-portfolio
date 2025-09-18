@@ -73,24 +73,6 @@ const Sidebar = () => {
         </ul>
       </div>
       <div className="widget">
-        <div className="widget-title">Categories</div>
-        <ul>
-          {loading
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <li key={i}>
-                  <Skeleton width="20%" height={14} />
-                </li>
-              ))
-            : categories.map((cat) => (
-                <li key={cat.id}>
-                  <Link to={`/blog/category/${cat.slug}`}>
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-        </ul>
-      </div>
-      <div className="widget">
         <div className="widget-title">Tags</div>
         <div className="tag-cloud">
           {loading

@@ -3660,6 +3660,14 @@ input[type=submit]:hover {
   white-space: nowrap;
   padding: 10px 12px;
 }
+.blog-nav .blog-navigation li.blog-nav-title {
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 15px;
+  font-size: 0.95em;
+}
 .blog-nav .blog-navigation li a {
   padding: 10px 15px;
   color: #fff;

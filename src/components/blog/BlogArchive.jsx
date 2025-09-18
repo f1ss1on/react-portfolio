@@ -3,36 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Skeleton, SkeletonBlock } from "../Skeleton";
 import Sidebar from "./Sidebar";
+import BlogNav from "./BlogNav";
 
 const BlogArchive = () => {
   const { category } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [navOpen, setNavOpen] = useState(false);
   const categoryName = category ? category.replace(/-/g, ' ') : 'All';
 
   useEffect(() => {
-    fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setCategories(data.filter((cat) => cat.count > 0));
-      });
-  }, []);
-
-  useEffect(() => {
     setLoading(true);
-    // Find the category ID from the slug
-    let catId = null;
-    if (category && categories.length > 0) {
-      const found = categories.find((cat) => cat.slug === category);
-      if (found) catId = found.id;
-    }
     let url = "https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed";
-    if (catId) {
-      url += `&categories=${catId}`;
-    }
     fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch posts");
@@ -46,7 +28,7 @@ const BlogArchive = () => {
         setError(err.message);
         setLoading(false);
       });
-  }, [category, categories]);
+  }, [category]);
 
 
   if (loading || error) {
@@ -78,38 +60,7 @@ const BlogArchive = () => {
 
   return (
     <>
-      {categories.length > 0 && (
-        <nav className={`blog-nav${navOpen ? ' open' : ''}`} aria-label="Blog Navigation">
-          <div className="container">
-            <button
-              className="blog-nav-toggle"
-              aria-label={navOpen ? "Hide categories" : "Show categories"}
-              aria-expanded={navOpen}
-              aria-controls="blog-nav-list"
-              type="button"
-              onClick={() => setNavOpen((open) => !open)}
-            >
-              Categories 
-            </button>
-            <ul
-              id="blog-nav-list"
-              className={`blog-navigation${navOpen ? ' open' : ''}`}
-            >
-              {categories.map(cat => (
-                <li key={cat.id}>
-                  <Link
-                    to={`/blog/category/${cat.slug}`}
-                    className={`blog-category-link${cat.slug === category ? ' active' : ''}`}
-                    onClick={() => setNavOpen(false)}
-                  >
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-      )}
+      <BlogNav activeCategory={category} />
       <main className="container blog-index-page">
         <div className="page-header">
           <h2 id="page-title">Latest Posts in {categoryName}</h2>

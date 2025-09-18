@@ -1,17 +1,14 @@
-
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Skeleton, SkeletonBlock } from "../Skeleton";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 import Sidebar from "./Sidebar";
+import BlogNav from "./BlogNav";
 
 const Blog = ({ setPageTitle }) => {
-  // Blog navigation state
-  const [categories, setCategories] = useState([]);
-  const [navOpen, setNavOpen] = useState(false);
   // BlogPost logic
-  const { slug, category } = useParams();
+  const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,11 +20,15 @@ const Blog = ({ setPageTitle }) => {
     fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100")
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data)) setCategories(data.filter((cat) => cat.count > 0));
+          if (Array.isArray(data) && data.length > 0) {
+            // Removed setCategories call
+          }
       });
     if (slug) {
       setLoading(true);
-      fetch(`https://blog.riadkilani.com/wp-json/wp/v2/posts?slug=${slug}&_embed`)
+      fetch(
+        `https://blog.riadkilani.com/wp-json/wp/v2/posts?slug=${slug}&_embed`
+      )
         .then((res) => {
           if (!res.ok) throw new Error("Post not found");
           return res.json();
@@ -35,7 +36,8 @@ const Blog = ({ setPageTitle }) => {
         .then((data) => {
           if (Array.isArray(data) && data.length > 0) {
             setPost(data[0]);
-            if (setPageTitle) setPageTitle(data[0].title.rendered.replace(/<[^>]+>/g, ""));
+            if (setPageTitle)
+              setPageTitle(data[0].title.rendered.replace(/<[^>]+>/g, ""));
           } else {
             setError("Post not found");
             if (setPageTitle) setPageTitle(null);
@@ -76,66 +78,36 @@ const Blog = ({ setPageTitle }) => {
       btn.style.border = "none";
       btn.style.background = "rgb(238, 238, 238)";
       btn.style.cursor = "pointer";
-      btn.style.transition = "background 0.2s";
-      btn.onclick = () => {
-        navigator.clipboard.writeText(code.innerText);
-        btn.textContent = "Copied!";
-        setTimeout(() => (btn.textContent = "Copy"), 1200);
-      };
       pre.insertBefore(btn, code);
     });
   }, [post]);
-
-
-
 
   if (loading || error || !post) {
     return (
       <main className="blog-single-page">
         <article className="blog-post">
-          <h1><Skeleton width="60%" height={32} /></h1>
+          <h1>
+            <Skeleton width="60%" height={32} />
+          </h1>
           <Skeleton width="100%" height={220} style={{ marginBottom: 18 }} />
-          <SkeletonBlock lines={6} width={["100%","95%","90%","80%","70%","60%"]} height={16} />
+          <SkeletonBlock
+            lines={6}
+            width={["100%", "95%", "90%", "80%", "70%", "60%"]}
+            height={16}
+          />
         </article>
-        {error && <div style={{ color: 'red', textAlign: 'center', marginTop: 32 }}>Error: {error}</div>}
+        {error && (
+          <div style={{ color: "red", textAlign: "center", marginTop: 32 }}>
+            Error: {error}
+          </div>
+        )}
       </main>
     );
   }
 
   return (
     <>
-      {categories.length > 0 && (
-        <nav className={`blog-nav${navOpen ? ' open' : ''}`} aria-label="Blog Navigation">
-          <div className="container">
-            <button
-              className="blog-nav-toggle"
-              aria-label={navOpen ? "Hide categories" : "Show categories"}
-              aria-expanded={navOpen}
-              aria-controls="blog-nav-list"
-              type="button"
-              onClick={() => setNavOpen((open) => !open)}
-            >
-              Categories &#9776;
-            </button>
-            <ul
-              id="blog-nav-list"
-              className={`blog-navigation${navOpen ? ' open' : ''}`}
-            >
-              {categories.map(cat => (
-                <li key={cat.id}>
-                  <Link
-                    to={`/blog/category/${cat.slug}`}
-                    className="blog-category-link"
-                    onClick={() => setNavOpen(false)}
-                  >
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-      )}
+      <BlogNav />
       <main className="blog-post-main blog-post-page">
         <div className="breadcrumbs">
           <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{" "}
@@ -149,7 +121,11 @@ const Blog = ({ setPageTitle }) => {
                 <img
                   src={post._embedded["wp:featuredmedia"][0].source_url}
                   alt={post.title.rendered}
-                  style={{ maxWidth: "100%", borderRadius: 8, marginBottom: 24 }}
+                  style={{
+                    maxWidth: "100%",
+                    borderRadius: 8,
+                    marginBottom: 24,
+                  }}
                 />
               )}
               <div

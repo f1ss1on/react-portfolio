@@ -3,23 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Skeleton, SkeletonBlock } from "../Skeleton";
 import Sidebar from "./Sidebar";
+import BlogNav from "./BlogNav";
 
 const BlogTagArchive = () => {
   const { tag } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [navOpen, setNavOpen] = useState(false);
   const tagName = tag ? tag.replace(/-/g, ' ') : 'All';
 
-  useEffect(() => {
-    fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setCategories(data.filter((cat) => cat.count > 0));
-      });
-  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -101,38 +93,7 @@ const BlogTagArchive = () => {
 
   return (
     <>
-      {categories.length > 0 && (
-        <nav className={`blog-nav${navOpen ? ' open' : ''}`} aria-label="Blog Navigation">
-          <div className="container">
-            <button
-              className="blog-nav-toggle"
-              aria-label={navOpen ? "Hide categories" : "Show categories"}
-              aria-expanded={navOpen}
-              aria-controls="blog-nav-list"
-              type="button"
-              onClick={() => setNavOpen((open) => !open)}
-            >
-              Categories  ￾
-            </button>
-            <ul
-              id="blog-nav-list"
-              className={`blog-navigation${navOpen ? ' open' : ''}`}
-            >
-              {categories.map(cat => (
-                <li key={cat.id}>
-                  <Link
-                    to={`/blog/category/${cat.slug}`}
-                    className={`blog-category-link`}
-                    onClick={() => setNavOpen(false)}
-                  >
-                    {cat.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-      )}
+      <BlogNav />
       <main className="container blog-index-page">
         <div className="page-header">
           <h2 id="page-title">Latest Posts tagged '{tagName}'</h2>
