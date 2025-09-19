@@ -14,7 +14,7 @@ const PortfolioModal = ({ modalOpen, modalProject, closeModal }) => {
       aria-labelledby="portfolio-modal-title"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="portfolio-modal-title">
+        <Modal.Title as="h2" id="portfolio-modal-title">
           {modalProject?.title}
         </Modal.Title>
       </Modal.Header>

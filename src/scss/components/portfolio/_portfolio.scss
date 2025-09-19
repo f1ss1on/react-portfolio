@@ -131,7 +131,24 @@
     }
   }
 }
-
+.modal {
+  .modal-header {
+    .btn-close {
+      position: relative;
+      right: 20px;
+      &:hover {
+        background: $secondary-blue;
+        color: $text-white;
+      }
+    }
+  }
+  .modal-body {
+   // 
+  }
+  .modal-footer {
+    //
+  }
+}
 .tech-used {
   .fa-illustrator,
   .fa-photoshop,

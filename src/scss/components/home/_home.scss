@@ -210,7 +210,7 @@
       text-align: center;
 
       i {
-        @include font-size-xxl;
+        font-size: 3rem;
         color: #bbb;
         transition: color 0.3s ease;
       }
@@ -382,7 +382,7 @@
   color: $text-dark;
 
   .container {
-    background: linear-gradient(120deg, $background-light 80%, $accent 100%);
+    background: #f4f4f4;
     padding: $gap-lg $gap;
     border-radius: $radius-lg;
     box-shadow: 0 4px 24px rgba($primary, 0.09);
@@ -455,20 +455,6 @@
           &:hover img {
             transform: scale(1.07) rotate(-2deg);
           }
-        }
-
-        &::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 38px;
-          background: linear-gradient(
-            0deg,
-            rgba($primary, 0.09) 80%,
-            transparent 100%
-          );
         }
       }
 

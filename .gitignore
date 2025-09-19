@@ -1,3 +1,5 @@
+# Ignore progress.html
+progress.html
 # Logs
 logs
 *.log

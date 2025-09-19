@@ -1469,7 +1469,7 @@ figure {
   text-align: center;
 }
 .about .container .skills-grid i {
-  font-size: 2rem;
+  font-size: 3rem;
   color: #bbb;
   transition: color 0.3s ease;
 }
@@ -1619,7 +1619,7 @@ figure {
   color: #333;
 }
 .hportfolio .container {
-  background: linear-gradient(120deg, #f4f3f4 80%, #abafb2 100%);
+  background: #f4f4f4;
   padding: 40px 20px;
   border-radius: 8px;
   box-shadow: 0 4px 24px rgba(0, 115, 170, 0.09);
@@ -1687,15 +1687,6 @@ figure {
 }
 .hportfolio .container .card .card-head .project-img-16x9:hover img {
   transform: scale(1.07) rotate(-2deg);
-}
-.hportfolio .container .card .card-head::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 38px;
-  background: linear-gradient(0deg, rgba(0, 115, 170, 0.09) 80%, transparent 100%);
 }
 .hportfolio .container .card .card-bod {
   padding: 20px;
@@ -2193,6 +2184,14 @@ figure {
   vertical-align: middle;
 }
 
+.modal .modal-header .btn-close {
+  position: relative;
+  right: 20px;
+}
+.modal .modal-header .btn-close:hover {
+  background: #005177;
+  color: #fff;
+}
 .tech-used .fa-illustrator::before,
 .tech-used .fa-photoshop::before,
 .tech-used .fa-aftereffects::before,
