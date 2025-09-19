@@ -172,18 +172,26 @@
 }
 
 // Responsive styles
+
 @media (max-width: $bp-md) {
   .contact-section {
     padding: 24px 10px;
+    overflow-x: hidden;
     .contact-content {
       flex-direction: column;
       gap: 24px;
     }
-    .contact-info h2 { @include font-size-lg; }
-    .contact-info p { @include font-size-sm; }
+    .contact-info {
+      min-width: 0;
+      flex-basis: 100%;
+      width: 100%;
+      h2 { @include font-size-lg; }
+      p { @include font-size-sm; }
+    }
     .contact-form {
       padding: 18px 8px;
       flex: 1 1 100%;
+      min-width: 0;
       width: 100%;
     }
   }
@@ -192,14 +200,27 @@
 @media (max-width: $bp-sm) {
   .contact-section {
     padding: 12px 4px;
+    .contact-social {
+      display: block !important;
+      .btn {
+        display: block;
+        width: 100% !important;
+      }
+    }
     .contact-content {
       gap: 14px;
     }
-    .contact-info h2 { @include font-size-md; }
-    .contact-info p { @include font-size-xs; }
+    .contact-info {
+      min-width: 0;
+      flex-basis: 100%;
+      width: 100%;
+      h2 { @include font-size-md; }
+      p { @include font-size-xs; }
+    }
     .contact-form {
-      padding: 10px 2px;
+      padding: 10px;
       flex: 1 1 100%;
+      min-width: 0;
       width: 100%;
     }
   }

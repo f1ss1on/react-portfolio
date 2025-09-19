@@ -591,7 +591,7 @@ p, .text-body {
  * Last updated: 2025-09-11
  */
 html {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 * {
@@ -607,6 +607,7 @@ body {
   margin: 0;
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden !important;
 }
 body::before {
   content: "";
@@ -747,6 +748,10 @@ input[type=submit]:hover {
 
 .section-header {
   margin-top: 60px;
+}
+
+figure {
+  margin: 0;
 }
 
 /*!
@@ -1381,7 +1386,7 @@ input[type=submit]:hover {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: conic-gradient(#8e24aa 0deg, #eee 0deg);
+  background: conic-gradient(#8e24aa 360deg, #eee 0deg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3523,10 +3528,16 @@ input[type=submit]:hover {
 @media (max-width: 900px) {
   .contact-section {
     padding: 24px 10px;
+    overflow-x: hidden;
   }
   .contact-section .contact-content {
     flex-direction: column;
     gap: 24px;
+  }
+  .contact-section .contact-info {
+    min-width: 0;
+    flex-basis: 100%;
+    width: 100%;
   }
   .contact-section .contact-info h2 {
     font-size: 1.25rem;
@@ -3537,6 +3548,7 @@ input[type=submit]:hover {
   .contact-section .contact-form {
     padding: 18px 8px;
     flex: 1 1 100%;
+    min-width: 0;
     width: 100%;
   }
 }
@@ -3544,8 +3556,20 @@ input[type=submit]:hover {
   .contact-section {
     padding: 12px 4px;
   }
+  .contact-section .contact-social {
+    display: block !important;
+  }
+  .contact-section .contact-social .btn {
+    display: block;
+    width: 100% !important;
+  }
   .contact-section .contact-content {
     gap: 14px;
+  }
+  .contact-section .contact-info {
+    min-width: 0;
+    flex-basis: 100%;
+    width: 100%;
   }
   .contact-section .contact-info h2 {
     font-size: 1rem;
@@ -3554,8 +3578,9 @@ input[type=submit]:hover {
     font-size: 0.75rem;
   }
   .contact-section .contact-form {
-    padding: 10px 2px;
+    padding: 10px;
     flex: 1 1 100%;
+    min-width: 0;
     width: 100%;
   }
 }

@@ -23,5 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+
 # Local admin tools (not for git)
 tools/project-form.html
+
+# Project migration notes (not for git)
+VITE-SSG-MIGRATION-TODO.md

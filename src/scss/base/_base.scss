@@ -10,7 +10,7 @@
 @use '../abstracts/variables' as *;
 
 html {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 * {
@@ -26,6 +26,7 @@ body {
   margin: 0;
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden !important;
 
   // Typography handled by _typography.scss
   &::before {
@@ -156,4 +157,8 @@ input[type="submit"] {
 
 .section-header {
   margin-top: $gap-xl;
+}
+
+figure {
+  margin: 0;
 }

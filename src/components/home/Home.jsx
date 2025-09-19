@@ -119,15 +119,15 @@ const Home = () => {
             </div>
             <div className="progress-container" aria-label="Skill Progress">
               <div>
-                <ProgressCircle percent={100} label="HTML" color="#e44d26" />
+                <ProgressCircle percent={100} label="HTML" color="#8e24aa" />
                 <div className="label">HTML</div>
               </div>
               <div>
-                <ProgressCircle percent={100} label="CSS" color="#2965f1" />
+                <ProgressCircle percent={100} label="CSS" color="#8e24aa" />
                 <div className="label">CSS</div>
               </div>
               <div>
-                <ProgressCircle percent={85} label="JavaScript" color="#f7df1e" />
+                <ProgressCircle percent={92} label="JavaScript" color="#8e24aa" />
                 <div className="label">JavaScript</div>
               </div>
             </div>
