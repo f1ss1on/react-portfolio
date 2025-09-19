@@ -1,80 +1,78 @@
-
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Skeleton, SkeletonBlock } from "../Skeleton";
-import Sidebar from "./Sidebar";
-import BlogNav from "./BlogNav";
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { Skeleton, SkeletonBlock } from '../Skeleton'
+import Sidebar from './Sidebar'
+import BlogNav from './BlogNav'
 
 const BlogArchive = () => {
-  const { category } = useParams();
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const categoryName = category ? category.replace(/-/g, ' ') : 'All';
+  const { category } = useParams()
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const categoryName = category ? category.replace(/-/g, ' ') : 'All'
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     if (category) {
       // Fetch category ID from slug
       fetch(`https://blog.riadkilani.com/wp-json/wp/v2/categories?slug=${category}`)
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           if (Array.isArray(data) && data.length > 0) {
-            const catId = data[0].id;
-            let url = `https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed&categories=${catId}`;
+            const catId = data[0].id
+            let url = `https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed&categories=${catId}`
             fetch(url)
-              .then((res) => {
-                if (!res.ok) throw new Error("Failed to fetch posts");
-                return res.json();
+              .then(res => {
+                if (!res.ok) throw new Error('Failed to fetch posts')
+                return res.json()
               })
-              .then((data) => {
-                setPosts(data);
-                setLoading(false);
+              .then(data => {
+                setPosts(data)
+                setLoading(false)
               })
-              .catch((err) => {
-                setError(err.message);
-                setLoading(false);
-              });
+              .catch(err => {
+                setError(err.message)
+                setLoading(false)
+              })
           } else {
-            setPosts([]);
-            setLoading(false);
+            setPosts([])
+            setLoading(false)
           }
-        });
+        })
     } else {
       // No category, show all posts
-      let url = "https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed";
+      let url = 'https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=10&_embed'
       fetch(url)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch posts");
-          return res.json();
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch posts')
+          return res.json()
         })
-        .then((data) => {
-          setPosts(data);
-          setLoading(false);
+        .then(data => {
+          setPosts(data)
+          setLoading(false)
         })
-        .catch((err) => {
-          setError(err.message);
-          setLoading(false);
-        });
+        .catch(err => {
+          setError(err.message)
+          setLoading(false)
+        })
     }
-  }, [category]);
-
+  }, [category])
 
   if (loading || error) {
     return (
-      <main className="blog-index-page">
-        <div className="content-sidebar-wrapper">
-          <section className="listing-content blog-content">
+      <main className='blog-index-page'>
+        <div className='content-sidebar-wrapper'>
+          <section className='listing-content blog-content'>
             <h1>
-              <Skeleton width="40%" height={32} />
+              <Skeleton width='40%' height={32} />
             </h1>
-            <ul className="blog-index-list">
+            <ul className='blog-index-list'>
               {Array.from({ length: 4 }).map((_, i) => (
-                <li key={i} className="blog-index-item">
-                  <article className="blog-snippet">
-                    <Skeleton width="60%" height={24} style={{ marginBottom: 8 }} />
-                    <Skeleton width="100%" height={160} style={{ marginBottom: 12 }} />
-                    <SkeletonBlock lines={2} width={["90%", "70%"]} height={14} />
+                <li key={i} className='blog-index-item'>
+                  <article className='blog-snippet'>
+                    <Skeleton width='60%' height={24} style={{ marginBottom: 8 }} />
+                    <Skeleton width='100%' height={160} style={{ marginBottom: 12 }} />
+                    <SkeletonBlock lines={2} width={['90%', '70%']} height={14} />
                   </article>
                 </li>
               ))}
@@ -84,48 +82,42 @@ const BlogArchive = () => {
         </div>
         {error && <div style={{ color: 'red', textAlign: 'center', marginTop: 32 }}>Error: {error}</div>}
       </main>
-    );
+    )
   }
 
   return (
     <>
       <BlogNav activeCategory={category} />
-      <main className="container blog-index-page">
-        <div className="page-header">
-          <h2 id="page-title">Latest Posts in {categoryName}</h2>
+      <main className='container blog-index-page'>
+        <div className='page-header'>
+          <h2 id='page-title'>Latest Posts in {categoryName}</h2>
           <p>Intereseted in {categoryName}? Read more here.</p>
         </div>
-        <div className="breadcrumbs">
-          <Link to="/">Home</Link> &gt; <Link to="/blog">Blog</Link> &gt;{' '}
-          Category: {categoryName}
+        <div className='breadcrumbs'>
+          <Link to='/'>Home</Link> &gt; <Link to='/blog'>Blog</Link> &gt; Category: {categoryName}
         </div>
-        <div className="content-sidebar-wrapper">
-          <section className="listing-content blog-content">          
-            <ul className="blog-index-list">
-              {posts.map((post) => (
-                <li key={post.id} className="blog-index-item">
-                  <article className="blog-snippet">
+        <div className='content-sidebar-wrapper'>
+          <section className='listing-content blog-content'>
+            <ul className='blog-index-list'>
+              {posts.map(post => (
+                <li key={post.id} className='blog-index-item'>
+                  <article className='blog-snippet'>
                     <h2>
-                      <Link to={`/blog/${post.slug}`}>
-                        {post.title.rendered.replace(/<[^>]+>/g, "")}
-                      </Link>
+                      <Link to={`/blog/${post.slug}`}>{post.title.rendered.replace(/<[^>]+>/g, '')}</Link>
                     </h2>
-                    {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
+                    {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
                       <img
-                        src={post._embedded["wp:featuredmedia"][0].source_url}
+                        src={post._embedded['wp:featuredmedia'][0].source_url}
                         alt={post.title.rendered}
                         style={{
-                          maxWidth: "100%",
+                          maxWidth: '100%',
                           borderRadius: 8,
                           marginBottom: 12,
                         }}
                       />
                     )}
-                    <div
-                      className="blog-index-excerpt"
-                      dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                    />
-                    <Link to={`/blog/${post.slug}`} className="read-more-link">
+                    <div className='blog-index-excerpt' dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+                    <Link to={`/blog/${post.slug}`} className='read-more-link'>
                       Read More
                     </Link>
                   </article>
@@ -137,7 +129,7 @@ const BlogArchive = () => {
         </div>
       </main>
     </>
-  );
-};
+  )
+}
 
-export default BlogArchive;
+export default BlogArchive

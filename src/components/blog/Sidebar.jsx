@@ -13,21 +13,15 @@ const Sidebar = () => {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch("https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=5").then(
-        (res) => res.json()
+      fetch("https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=5").then((res) => res.json()),
+      fetch("https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100").then((res) => res.json()),
+      fetch("https://blog.riadkilani.com/wp-json/wp/v2/tags?per_page=20&orderby=count&order=desc").then((res) =>
+        res.json()
       ),
-      fetch(
-        "https://blog.riadkilani.com/wp-json/wp/v2/categories?per_page=100"
-      ).then((res) => res.json()),
-      fetch(
-        "https://blog.riadkilani.com/wp-json/wp/v2/tags?per_page=20&orderby=count&order=desc"
-      ).then((res) => res.json()),
     ]).then(([recentData, catData, tagData]) => {
       if (Array.isArray(recentData)) setRecent(recentData);
-      if (Array.isArray(catData))
-        setCategories(catData.filter((cat) => cat.count > 0));
-      if (Array.isArray(tagData))
-        setTags(tagData.filter((tag) => tag.count > 0));
+      if (Array.isArray(catData)) setCategories(catData.filter((cat) => cat.count > 0));
+      if (Array.isArray(tagData)) setTags(tagData.filter((tag) => tag.count > 0));
       setLoading(false);
     });
   }, []);
@@ -35,10 +29,7 @@ const Sidebar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (search.trim()) {
-      window.open(
-        `https://blog.riadkilani.com/?s=${encodeURIComponent(search)}`,
-        "_blank"
-      );
+      window.open(`https://blog.riadkilani.com/?s=${encodeURIComponent(search)}`, "_blank");
     }
   };
 
@@ -46,12 +37,7 @@ const Sidebar = () => {
     <aside className="blog-sidebar">
       <div className="widget">
         <form onSubmit={handleSearch} style={{ marginBottom: "1.5rem" }}>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </form>
       </div>
       <div className="widget">
@@ -65,9 +51,7 @@ const Sidebar = () => {
               ))
             : recent.map((post) => (
                 <li key={post.id}>
-                  <Link to={`/blog/${post.id}`}>
-                    {post.title.rendered.replace(/<[^>]+>/g, "")}
-                  </Link>
+                  <Link to={`/blog/${post.id}`}>{post.title.rendered.replace(/<[^>]+>/g, "")}</Link>
                 </li>
               ))}
         </ul>
@@ -77,10 +61,7 @@ const Sidebar = () => {
         <div className="tag-cloud">
           {loading
             ? Array.from({ length: 10 }).map((_, i) => (
-                <span
-                  key={i}
-                  style={{ display: "inline-block", margin: "0 6px 8px 0" }}
-                >
+                <span key={i} style={{ display: "inline-block", margin: "0 6px 8px 0" }}>
                   <Skeleton width={48 + Math.random() * 40} height={14} />
                 </span>
               ))
@@ -91,16 +72,12 @@ const Sidebar = () => {
                 const max = Math.max(...counts);
                 const minFont = 9; // px
                 const maxFont = 18; // px
-                const visibleTags = showAllTags
-                  ? tags
-                  : tags.slice(0, TAGS_DEFAULT_COUNT);
+                const visibleTags = showAllTags ? tags : tags.slice(0, TAGS_DEFAULT_COUNT);
                 return [
                   ...visibleTags.map((tag) => {
                     let fontSize = minFont;
                     if (max !== min) {
-                      fontSize =
-                        minFont +
-                        ((tag.count - min) / (max - min)) * (maxFont - minFont);
+                      fontSize = minFont + ((tag.count - min) / (max - min)) * (maxFont - minFont);
                     }
                     fontSize = Math.round(fontSize);
                     return (
@@ -109,16 +86,11 @@ const Sidebar = () => {
                         href={`/blog/tag/${tag.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        title={
-                          typeof tag.count === "number" && tag.count > 0
-                            ? tag.count
-                            : undefined
-                        }
+                        title={typeof tag.count === "number" && tag.count > 0 ? tag.count : undefined}
                         style={{
                           fontSize: fontSize + "px",
                           verticalAlign: "middle",
-                        }}
-                      >
+                        }}>
                         {tag.name}
                       </a>
                     );
@@ -141,11 +113,8 @@ const Sidebar = () => {
                         fontSize: "1em",
                       }}
                       onClick={() => setShowAllTags((v) => !v)}
-                      aria-expanded={showAllTags}
-                    >
-                      {showAllTags
-                        ? "Show fewer tags"
-                        : `Show all ${tags.length} tags`}
+                      aria-expanded={showAllTags}>
+                      {showAllTags ? "Show fewer tags" : `Show all ${tags.length} tags`}
                     </button>
                   ),
                 ];
@@ -156,21 +125,13 @@ const Sidebar = () => {
         <div className="widget-title">Links</div>
         <ul>
           <li>
-            <a
-              href="https://riadkilani.com/#/portfolio"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Portfolio
+            <a href="https://blog.riadkilani.com" target="_blank" rel="noopener noreferrer">
+              Full Blog
             </a>
           </li>
           <li>
-            <a
-              href="https://blog.riadkilani.com/contact/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contact
+            <a href="https://blog.riadkilani.com/contact/" target="_blank" rel="noopener noreferrer">
+              <Link to="/contact">Contact Me</Link>
             </a>
           </li>
         </ul>

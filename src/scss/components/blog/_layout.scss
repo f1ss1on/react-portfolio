@@ -220,6 +220,10 @@
   border-radius: 8px;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  img {
+      width: 100%;
+      height: auto;
+    }
 }
 .blog-snippet h2, .blog-full h2 {
   font-size: 28px;

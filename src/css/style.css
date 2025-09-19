@@ -2353,22 +2353,29 @@ figure {
   display: block;
 }
 .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel .gallery-grid-tiles {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 16px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 8px 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #0073aa #f5f5f5;
 }
 .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel .gallery-grid-tiles .gallery-tile {
-  width: 100%;
+  width: 200px;
+  height: 200px;
+  flex: 0 0 auto;
   aspect-ratio: 4/3;
   object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 115, 170, 0.12);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 8px;
 }
 .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel .gallery-grid-tiles .gallery-tile:hover {
   transform: translateY(-8px) scale(1.02);
@@ -3837,6 +3844,10 @@ figure {
   border-radius: 8px;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.blog-snippet img, .blog-full img {
+  width: 100%;
+  height: auto;
 }
 
 .blog-snippet h2, .blog-full h2 {

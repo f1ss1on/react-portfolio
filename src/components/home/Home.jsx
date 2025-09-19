@@ -29,26 +29,15 @@ function ProgressCircle({ percent, color = "#8e24aa" }) {
   const bg = `conic-gradient(${color} ${angle}deg, #eee ${angle}deg)`;
 
   return (
-    <div
-      className="circular-progress completed"
-      style={{ background: bg }}
-      ref={ref}
-      tabIndex={0}
-      aria-valuenow={value}
-      aria-valuemax={100}
-      aria-valuemin={0}
-      role="progressbar"
-    >
+    <div className="circular-progress completed" style={{ background: bg }} ref={ref} tabIndex={0} aria-valuenow={value} aria-valuemax={100} aria-valuemin={0} role="progressbar">
       <div className="progress-value">{value}%</div>
     </div>
   );
 }
 
-
-
 const Home = () => {
   const [years, setYears] = useState(0);
-  const [projects] = useState(portfolioProjects.filter(p => p.featured));
+  const [projects] = useState(portfolioProjects.filter((p) => p.featured));
   const [blogPosts, setBlogPosts] = useState([]);
   const [modalProject, setModalProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -58,21 +47,21 @@ const Home = () => {
     setYears(new Date().getFullYear() - 2004);
 
     // Fetch latest 2 blog posts from WordPress REST API
-    fetch('https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=2&_embed')
-      .then(res => res.json())
-      .then(data => {
+    fetch("https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=2&_embed")
+      .then((res) => res.json())
+      .then((data) => {
         if (Array.isArray(data)) {
-          setBlogPosts(data.map(post => ({
-            id: post.id,
-            slug: post.slug,
-            title: post.title?.rendered || '',
-            date: post.date,
-            excerpt: post.excerpt?.rendered?.replace(/<[^>]+>/g, '').trim() || '',
-            link: post.link,
-            img:
-              post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-              '/assets/images/projects/project-form.png',
-          })));
+          setBlogPosts(
+            data.map((post) => ({
+              id: post.id,
+              slug: post.slug,
+              title: post.title?.rendered || "",
+              date: post.date,
+              excerpt: post.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() || "",
+              link: post.link,
+              img: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/assets/images/projects/project-form.png",
+            }))
+          );
         }
       })
       .catch(() => {
@@ -83,13 +72,13 @@ const Home = () => {
   const openModal = (project) => {
     setModalProject(project);
     setModalOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
   const closeModal = () => {
     setModalOpen(false);
     setTimeout(() => {
       setModalProject(null);
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }, 350);
   };
 
@@ -102,7 +91,9 @@ const Home = () => {
           </figure>
           <div className="hero-content">
             <h1 id="hero-title">I am a front-end developer based in Orlando</h1>
-            <Link to="/portfolio" title="View Portfolio" className="btn">View My Work</Link>
+            <Link to="/portfolio" title="View Portfolio" className="btn">
+              View My Work
+            </Link>
           </div>
         </div>
       </section>
@@ -113,8 +104,8 @@ const Home = () => {
             <div className="about-text">
               <h2 id="about-title">About</h2>
               <p>
-                Experienced senior front-end developer with over <span>{years}</span> years in the industry.
-                I successfully deliver websites and web applications from design to code using modern tools and frameworks.
+                Experienced senior front-end developer with over <span>{years}</span> years in the industry. I successfully deliver websites and web applications from design to code using modern tools
+                and frameworks.
               </p>
             </div>
             <div className="progress-container" aria-label="Skill Progress">
@@ -149,7 +140,7 @@ const Home = () => {
               { icon: "fab fa-photoshop", label: "Photoshop" },
               { icon: "fab fa-indesign", label: "InDesign" },
               { icon: "fab fa-aftereffects", label: "After Effects" },
-            ].map(skill => (
+            ].map((skill) => (
               <div className="skill" key={skill.label}>
                 <i className={skill.icon} aria-label={skill.label}></i>
               </div>
@@ -174,8 +165,10 @@ const Home = () => {
                 </figure>
                 <div className="card-bod">
                   <h3>{project.title}</h3>
-                  <p>{project.desc.length > 120 ? project.desc.substring(0, 120) + '...' : project.desc}</p>
-                  <button className="btn view-more-btn" tabIndex={-1}>View More</button>
+                  <p>{project.desc.length > 120 ? project.desc.substring(0, 120) + "..." : project.desc}</p>
+                  <button className="btn view-more-btn" tabIndex={-1}>
+                    View More
+                  </button>
                 </div>
               </article>
             ))}
@@ -198,9 +191,17 @@ const Home = () => {
                         <h3>
                           <Link to={`/blog/${post.slug}`} dangerouslySetInnerHTML={{ __html: post.title }} />
                         </h3>
-                        <small>{new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</small>
+                        <small>
+                          {new Date(post.date).toLocaleDateString(undefined, {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </small>
                         <div className="excerpt-with-image">
-                          <p>{post.excerpt} <Link to={`/blog/${post.slug}`}>Read More</Link></p>
+                          <p>
+                            {post.excerpt} <Link to={`/blog/${post.slug}`}>Read More</Link>
+                          </p>
                           <div className="blog-featured-image">
                             <img src={post.img} alt={post.title} loading="lazy" />
                           </div>
@@ -220,7 +221,7 @@ const Home = () => {
         </div>
       </section>
 
-  <PortfolioModal modalOpen={modalOpen} modalProject={modalProject} closeModal={closeModal} />
+      <PortfolioModal modalOpen={modalOpen} modalProject={modalProject} closeModal={closeModal} />
     </div>
   );
 };
