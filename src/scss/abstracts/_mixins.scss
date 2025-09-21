@@ -16,6 +16,41 @@
   justify-content: center;
 }
 
+// Flex Column
+// Usage: @include flex-column;
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Gap Utility (medium)
+// Usage: @include gap-md;
+@mixin gap-md {
+  gap: $gap-md;
+}
+
+// Grid 2 Columns
+// Usage: @include grid-2;
+@mixin grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+// Grid 3 Columns
+// Usage: @include grid-3;
+@mixin grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+// Tile Style (for cards, gallery tiles, etc.)
+// Usage: @include tile-style;
+@mixin tile-style {
+  border-radius: $radius-lg;
+  box-shadow: 0 4px 16px rgba($primary, 0.12);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
 // Responsive Container
 @mixin container {
   max-width: $container-max;

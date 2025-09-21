@@ -6,7 +6,7 @@
  * Dependencies: Uses _variables.scss and _mixins.scss.
  * Last updated: 2025-08-15
  */
-@use 'sass:color';
+//@use 'sass:color';
 @use '../../abstracts/variables' as *;
 @use '../../abstracts/mixins' as *;
 
@@ -260,8 +260,10 @@
 }
 
 // Tabbed Gallery Styles
-.portfolio-gallery-tabs {
+section.portfolio-gallery-tabs.container {
   margin-bottom: 60px;
+}
+.portfolio-gallery-tabs {
   
   .gallery-tabs-header {
     text-align: center;
@@ -334,8 +336,8 @@
         scrollbar-color: $primary #f5f5f5;
 
         .gallery-tile {
-          width: 200px;
-          height: 200px;
+          width: 235px;
+          height: 220px;
           flex: 0 0 auto;
           aspect-ratio: 4/3;
           object-fit: cover;
@@ -442,5 +444,28 @@
   
   &:hover {
     color: $primary;
+  }
+}
+// Responsive thumbnail count label for gallery
+.gallery-thumb-count {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #217dbb;
+  font-weight: 500;
+  .thumb-count-desktop { display: inline; }
+  .thumb-count-tablet, .thumb-count-mobile { display: none; }
+}
+@media (max-width: 1024px) {
+  .gallery-thumb-count {
+    .thumb-count-desktop { display: none; }
+    .thumb-count-tablet { display: inline; }
+    .thumb-count-mobile { display: none; }
+  }
+}
+@media (max-width: 600px) {
+  .gallery-thumb-count {
+    .thumb-count-desktop { display: none; }
+    .thumb-count-tablet { display: none; }
+    .thumb-count-mobile { display: inline; }
   }
 }

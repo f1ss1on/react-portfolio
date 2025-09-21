@@ -33,3 +33,9 @@ tools/project-form.html
 
 # Project migration notes (not for git)
 VITE-SSG-MIGRATION-TODO.md
+
+# Staging build output
+staging
+
+# SCSS optimization action plan (local only)
+scss-action-plan-2025-09-20.txt
