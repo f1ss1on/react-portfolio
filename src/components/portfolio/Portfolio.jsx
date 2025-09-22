@@ -1,4 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+// LightboxWithTouch: adds touch swipe support for lightbox navigation
+function LightboxWithTouch({ images, index, setIndex, onClose, onPrev, onNext }) {
+  const imgRef = useRef(null);
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img) return;
+    let startX = null;
+    let endX = null;
+    const onTouchStart = (e) => {
+      if (e.touches.length === 1) {
+        startX = e.touches[0].clientX;
+      }
+    };
+    const onTouchMove = (e) => {
+      if (e.touches.length === 1) {
+        endX = e.touches[0].clientX;
+      }
+    };
+    const onTouchEnd = () => {
+      if (startX !== null && endX !== null) {
+        const diff = endX - startX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            onPrev();
+          } else {
+            onNext();
+          }
+        }
+      }
+      startX = null;
+      endX = null;
+    };
+    img.addEventListener('touchstart', onTouchStart);
+    img.addEventListener('touchmove', onTouchMove);
+    img.addEventListener('touchend', onTouchEnd);
+    return () => {
+      img.removeEventListener('touchstart', onTouchStart);
+      img.removeEventListener('touchmove', onTouchMove);
+      img.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [onPrev, onNext]);
+  return (
+    <div className="modal lightbox active" id="gallery-lightbox" tabIndex={-1} style={{ display: 'block' }}>
+      <div className="lightbox-content">
+        <span className="lightbox-close" onClick={onClose}>&times;</span>
+        <button className="lightbox-nav lightbox-prev" aria-label="Previous image" onClick={onPrev}>
+          <i className="fas fa-chevron-left"></i>
+        </button>
+        <button className="lightbox-nav lightbox-next" aria-label="Next image" onClick={onNext}>
+          <i className="fas fa-chevron-right"></i>
+        </button>
+        <img
+          className="lightbox-img"
+          src={images[index]}
+          alt=""
+          ref={imgRef}
+        />
+        <div className="lightbox-info">
+          <div className="lightbox-title">{images[index] ? images[index].split('/').pop() : ''}</div>
+          <div className="lightbox-counter">{index + 1} / {images.length}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 import { projects, galleryTabs } from "./projects";
 import PortfolioModal from "./PortfolioModal";
 
@@ -99,6 +166,16 @@ const Portfolio = () => {
           </div>
         </div>
       </section>
+      {lightboxOpen && lightboxImages.length > 0 && (
+        <LightboxWithTouch
+          images={lightboxImages}
+          index={lightboxIndex}
+          setIndex={setLightboxIndex}
+          onClose={closeLightbox}
+          onPrev={prevLightbox}
+          onNext={nextLightbox}
+        />
+      )}
       <PortfolioModal modalOpen={modalOpen} modalProject={modalProject} closeModal={closeModal} />
       <section className="portfolio-gallery-tabs container">
         <div className="gallery-tabs-header">
@@ -121,50 +198,86 @@ const Portfolio = () => {
           </nav>
         </div>
         <div className="gallery-tabs-content">
-          {galleryTabs.map(tab => (
-            <div
-              key={tab.key}
-              className={`gallery-tab-panel${activeTab === tab.key ? ' active' : ''}`}
-              id={`${tab.key}-panel`}
-              data-gallery={tab.key}
-              role="tabpanel"
-              aria-labelledby={tab.key}
-            >
-              <div className="gallery-grid-tiles">
-                {tab.images.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img}
-                    alt={`${tab.label} ${idx + 1}`}
-                    className="gallery-tile"
-                    loading="lazy"
-                    onClick={() => openLightbox(tab.images, idx)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                ))}
+          {(() => {
+            const activeTabObj = galleryTabs.find(tab => tab.key === activeTab);
+            const gridRef = React.useRef(null);
+            // Only enable touch scroll for mobile
+            React.useEffect(() => {
+              const el = gridRef.current;
+              if (!el) return;
+              if (window.matchMedia('(pointer: coarse)').matches) {
+                // Touch scroll for mobile
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                const onTouchStart = (e) => {
+                  isDown = true;
+                  startX = e.touches[0].pageX - el.offsetLeft;
+                  scrollLeft = el.scrollLeft;
+                };
+                const onTouchEnd = () => { isDown = false; };
+                const onTouchMove = (e) => {
+                  if (!isDown) return;
+                  const x = e.touches[0].pageX - el.offsetLeft;
+                  const walk = (x - startX) * 1.5;
+                  el.scrollLeft = scrollLeft - walk;
+                };
+                el.addEventListener('touchstart', onTouchStart);
+                el.addEventListener('touchend', onTouchEnd);
+                el.addEventListener('touchmove', onTouchMove);
+                return () => {
+                  el.removeEventListener('touchstart', onTouchStart);
+                  el.removeEventListener('touchend', onTouchEnd);
+                  el.removeEventListener('touchmove', onTouchMove);
+                };
+              }
+            }, []);
+
+            // Desktop nav arrows
+            const scrollBy = (amount) => {
+              if (gridRef.current) {
+                gridRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+              }
+            };
+
+            return (
+              <div
+                key={activeTabObj.key}
+                className="gallery-tab-panel active"
+                id={`${activeTabObj.key}-panel`}
+                data-gallery={activeTabObj.key}
+                role="tabpanel"
+                aria-labelledby={activeTabObj.key}
+              >
+                <div className="gallery-grid-nav desktop-only">
+                  <button className="gallery-nav-arrow prev" aria-label="Scroll left" onClick={() => scrollBy(-300)}>
+                    <i className="fas fa-chevron-left"></i>
+                  </button>
+                  <button className="gallery-nav-arrow next" aria-label="Scroll right" onClick={() => scrollBy(300)}>
+                    <i className="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                <div
+                  className="gallery-grid-tiles"
+                  ref={gridRef}
+                >
+                  {activeTabObj.images.map((img, idx) => (
+                    <img
+                      key={idx}
+                      src={img}
+                      alt={`${activeTabObj.label} ${idx + 1}`}
+                      className="gallery-tile"
+                      loading="lazy"
+                      onClick={() => openLightbox(activeTabObj.images, idx)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })()}
         </div>
       </section>
-      {lightboxOpen && lightboxImages.length > 0 && (
-        <div className="modal lightbox active" id="gallery-lightbox" tabIndex={-1} style={{ display: 'block' }}>
-          <div className="lightbox-content">
-            <span className="lightbox-close" onClick={closeLightbox}>&times;</span>
-            <button className="lightbox-nav lightbox-prev" aria-label="Previous image" onClick={prevLightbox}>
-              <i className="fas fa-chevron-left"></i>
-            </button>
-            <button className="lightbox-nav lightbox-next" aria-label="Next image" onClick={nextLightbox}>
-              <i className="fas fa-chevron-right"></i>
-            </button>
-            <img className="lightbox-img" src={lightboxImages[lightboxIndex]} alt="" />
-            <div className="lightbox-info">
-              <div className="lightbox-title">{lightboxImages[lightboxIndex]}</div>
-              <div className="lightbox-counter">{lightboxIndex + 1} / {lightboxImages.length}</div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };

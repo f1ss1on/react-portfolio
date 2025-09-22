@@ -130,9 +130,12 @@ const Sidebar = () => {
             </a>
           </li>
           <li>
-            <a href="https://blog.riadkilani.com/contact/" target="_blank" rel="noopener noreferrer">
-              <Link to="/contact">Contact Me</Link>
-            </a>
+            {/* External link: open in new tab */}
+            <a href="https://blog.riadkilani.com/contact/" target="_blank" rel="noopener noreferrer">Contact Me</a>
+          </li>
+          <li>
+            {/* Internal SPA link: client-side navigation */}
+            <Link to="/contact">Contact Me (SPA)</Link>
           </li>
         </ul>
       </div>

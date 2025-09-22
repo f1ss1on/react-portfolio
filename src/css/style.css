@@ -2083,7 +2083,7 @@ figure {
   border-radius: 8px;
   border: 1px solid #e3e3e3;
   overflow: hidden;
-  box-shadow: 0 2px 16px rgba(0, 115, 170, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s;
   display: flex;
   flex-direction: column;
@@ -2118,15 +2118,6 @@ figure {
 }
 .portfolio .container .card .card-head .project-img-16x9:hover img {
   transform: scale(1.07) rotate(-2deg);
-}
-.portfolio .container .card .card-head::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 38px;
-  background: linear-gradient(0deg, rgba(0, 115, 170, 0.09) 80%, transparent 100%);
 }
 .portfolio .container .card .card-bod {
   padding: 20px;
@@ -2266,6 +2257,10 @@ figure {
   font-family: "trajan-pro-3", serif;
   font-size: 2rem;
 }
+.portfolio-gallery .gallery-grid-tiles.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
 .portfolio-gallery .gallery-grid-tiles {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -2349,9 +2344,32 @@ section.portfolio-gallery-tabs.container {
 }
 .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel {
   display: none;
+  position: relative;
 }
 .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel.active {
   display: block;
+}
+.portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel button.gallery-nav-arrow.prev,
+.portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel button.gallery-nav-arrow.next {
+  position: absolute;
+  top: 35%;
+  z-index: 1000;
+  border-radius: 50%;
+  padding: 20px;
+  border: solid 4px white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+.portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel button.gallery-nav-arrow.prev {
+  left: 0;
+}
+.portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel button.gallery-nav-arrow.next {
+  right: 0;
+}
+@media (max-width: 768px) {
+  .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel button.gallery-nav-arrow.prev,
+  .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel button.gallery-nav-arrow.next {
+    display: none;
+  }
 }
 .portfolio-gallery-tabs .gallery-tabs-content .gallery-tab-panel .gallery-grid-tiles {
   display: flex;
@@ -2786,7 +2804,7 @@ section.portfolio-gallery-tabs.container {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
-  color: #333;
+  color: #fff;
   padding: 12px 24px;
   border-radius: 4px;
   font-size: 1.1rem;
@@ -2803,7 +2821,7 @@ section.portfolio-gallery-tabs.container {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
-  color: #333;
+  color: #fff;
   padding: 8px 16px;
   border-radius: 4px;
   font-size: 0.9rem;
