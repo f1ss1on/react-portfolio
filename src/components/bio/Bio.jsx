@@ -9,7 +9,7 @@ const Bio = () => {
 
   // Years of service calculation
   useEffect(() => {
-    const startYear = 2004;
+    const startYear = 2009;
     setYears(new Date().getFullYear() - startYear);
   }, []);
 

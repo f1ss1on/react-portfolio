@@ -51,7 +51,7 @@ const Sidebar = () => {
               ))
             : recent.map((post) => (
                 <li key={post.id}>
-                  <Link to={`/blog/${post.id}`}>{post.title.rendered.replace(/<[^>]+>/g, "")}</Link>
+                  <Link to={`/blog/${post.slug}`}>{post.title.rendered.replace(/<[^>]+>/g, "")}</Link>
                 </li>
               ))}
         </ul>

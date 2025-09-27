@@ -42,9 +42,11 @@ const Home = () => {
   const [modalProject, setModalProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    // Years of service
-    setYears(new Date().getFullYear() - 2004);
+    // Years of service calculation
+    useEffect(() => {
+      const startYear = 2009;
+      setYears(new Date().getFullYear() - startYear);
+    
 
     // Fetch latest 2 blog posts from WordPress REST API
     fetch("https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=2&_embed")
