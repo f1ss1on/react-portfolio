@@ -39,3 +39,7 @@ staging
 
 # SCSS optimization action plan (local only)
 scss-action-plan-2025-09-20.txt
+
+# Public images (treat as generated/local assets)
+public/images/*
+!public/images/.gitkeep

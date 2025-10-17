@@ -21,7 +21,9 @@ const Header = () => {
             title="Riad Kilani - Front-end Developer"
           >
             <span className="site-title">Riad Kilani</span>
-            <span className="site-description">Senior Front-End Developer | React Specialist | UI/UX Modernist</span>
+            <span className="site-description">
+              Senior Front-End Developer | React Specialist | UI/UX Modernist
+            </span>
           </Link>
         </div>
         <button
@@ -31,7 +33,9 @@ const Header = () => {
           aria-expanded={menuOpen}
           onClick={handleToggle}
         >
-          <i className={menuOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars"}></i>
+          <i
+            className={menuOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars"}
+          ></i>
         </button>
         <nav
           id="main-navigation"

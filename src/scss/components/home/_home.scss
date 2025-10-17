@@ -35,11 +35,21 @@
 
       h1 {
         font-family: $font-heading-italic;
+        font-style: italic;
         @include font-size-hero;
         text-transform: uppercase;
-        margin-bottom: 20px;
-        font-style: italic;
-        font-weight: 700;
+        margin-bottom: 20px;        
+        font-weight: 500;
+      }
+
+      .hero-rotating {
+        display: inline-block;        
+        font-weight: 600;
+        opacity: 0; // default hidden; toggled via .is-visible
+        transition: opacity 250ms ease;
+        &.is-visible {
+          opacity: 1;
+        }
       }
     }
   }
