@@ -1,5 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 
+// Helper: map original public image path to optimized outputs
+// '/images/portfolio/.../name.ext' -> '/images/portfolio-optimized/.../name-<size>.(webp|jpg)'
+function getOptimizedPaths(originalPath, size = 1200) {
+  if (!originalPath || typeof originalPath !== 'string') {
+    return { webp: originalPath, jpeg: originalPath };
+  }
+  // Normalize and split
+  const prefix = '/images/portfolio/';
+  const optPrefix = '/images/portfolio-optimized/';
+  if (!originalPath.startsWith(prefix)) {
+    return { webp: originalPath, jpeg: originalPath };
+  }
+  const rest = originalPath.slice(prefix.length); // e.g., 'mobile/file.png'
+  const dot = rest.lastIndexOf('.');
+  const base = dot > 0 ? rest.slice(0, dot) : rest;
+  const sized = `${base}-${size}`;
+  // Choose fallback extension to match optimizer outputs: PNG for original PNGs (alpha), else JPEG
+  const origExt = originalPath.toLowerCase().endsWith('.png') ? 'png' : 'jpg';
+  return {
+    webp: `${optPrefix}${sized}.webp`,
+    jpeg: `${optPrefix}${sized}.${origExt}`,
+  };
+}
+
 // LightboxWithTouch: adds touch swipe support for lightbox navigation
 function LightboxWithTouch({ images, index, setIndex, onClose, onPrev, onNext }) {
   const imgRef = useRef(null);
@@ -41,6 +65,9 @@ function LightboxWithTouch({ images, index, setIndex, onClose, onPrev, onNext })
       img.removeEventListener('touchend', onTouchEnd);
     };
   }, [onPrev, onNext]);
+  // Compute optimized sources for the current image (use larger size for lightbox)
+  const current = images[index];
+  const sources = getOptimizedPaths(current, 1600);
   return (
     <div className="modal lightbox active" id="gallery-lightbox" tabIndex={-1} style={{ display: 'block' }}>
       <div className="lightbox-content">
@@ -51,14 +78,17 @@ function LightboxWithTouch({ images, index, setIndex, onClose, onPrev, onNext })
         <button className="lightbox-nav lightbox-next" aria-label="Next image" onClick={onNext}>
           <i className="fas fa-chevron-right"></i>
         </button>
-        <img
-          className="lightbox-img"
-          src={images[index]}
-          alt=""
-          ref={imgRef}
-        />
+        <picture>
+          <source type="image/webp" srcSet={sources.webp} />
+          <img
+            className="lightbox-img"
+            src={sources.jpeg}
+            alt=""
+            ref={imgRef}
+          />
+        </picture>
         <div className="lightbox-info">
-          <div className="lightbox-title">{images[index] ? images[index].split('/').pop() : ''}</div>
+          <div className="lightbox-title">{current ? current.split('/').pop() : ''}</div>
           <div className="lightbox-counter">{index + 1} / {images.length}</div>
         </div>
       </div>
@@ -261,17 +291,20 @@ const Portfolio = () => {
                   className="gallery-grid-tiles"
                   ref={gridRef}
                 >
-                  {activeTabObj.images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`${activeTabObj.label} ${idx + 1}`}
-                      className="gallery-tile"
-                      loading="lazy"
-                      onClick={() => openLightbox(activeTabObj.images, idx)}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  ))}
+                  {activeTabObj.images.map((img, idx) => {
+                    const src = getOptimizedPaths(img, 1200);
+                    return (
+                      <picture key={idx} onClick={() => openLightbox(activeTabObj.images, idx)} style={{ cursor: 'pointer' }}>
+                        <source type="image/webp" srcSet={src.webp} />
+                        <img
+                          src={src.jpeg}
+                          alt={`${activeTabObj.label} ${idx + 1}`}
+                          className="gallery-tile"
+                          loading="lazy"
+                        />
+                      </picture>
+                    );
+                  })}
                 </div>
               </div>
             );

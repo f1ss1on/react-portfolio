@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "gulp styles && vite build",
-  "styles": "gulp styles",
-  "build:staging": "npm run styles && cross-env BUILD_OUT_DIR=staging vite build",
+    "styles": "gulp styles",
+    "build:staging": "npm run styles && cross-env BUILD_OUT_DIR=staging vite build",
+    "images:optimize": "node tools/optimize-images.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -30,6 +31,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "globby": "^15.0.0",
     "gulp": "^5.0.1",
     "gulp-clean-css": "^4.3.0",
     "gulp-rename": "^2.1.0",
@@ -37,6 +39,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-strip-css-comments": "^3.0.0",
     "sass": "^1.92.1",
+    "sharp": "^0.34.4",
     "vite": "^7.1.2",
     "vite-plugin-static-copy": "^3.1.2"
   }
