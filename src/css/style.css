@@ -734,7 +734,7 @@ input[type=submit]:hover {
 .page-header h2,
 .section-header h2 {
   font-size: 2rem;
-  color: #217dbb;
+  color: #2c94da;
   font-family: "trajan-pro-3", serif;
   margin-bottom: 20px !important;
 }
@@ -1319,11 +1319,20 @@ figure {
 }
 .hero .container .hero-content h1 {
   font-family: "playfair_italic", serif;
+  font-style: italic;
   font-size: 3.125rem;
   text-transform: uppercase;
   margin-bottom: 20px;
-  font-style: italic;
-  font-weight: 700;
+  font-weight: 500;
+}
+.hero .container .hero-content .hero-rotating {
+  display: inline-block;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+.hero .container .hero-content .hero-rotating.is-visible {
+  opacity: 1;
 }
 
 @media (max-width: 1050px) {
@@ -1630,7 +1639,7 @@ figure {
 }
 .hportfolio .container .port-header h2 {
   font-size: 2rem;
-  color: #217dbb;
+  color: #2c94da;
   margin-bottom: 8px;
 }
 .hportfolio .container .port-header p {
@@ -1698,7 +1707,7 @@ figure {
 .hportfolio .container .card .card-bod h3 {
   font-size: 1.5rem;
   margin: 10px 0 8px 0;
-  color: #217dbb;
+  color: #2c94da;
   font-weight: 700;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -2130,7 +2139,7 @@ figure {
   font-size: 1.5rem;
   margin: 10px 0 8px 0;
   font-family: DM Sans, sans-serif;
-  color: #217dbb;
+  color: #2c94da;
   font-weight: 700;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -2628,7 +2637,7 @@ section.portfolio-gallery-tabs.container {
 .project-wrapper .tech-used strong {
   display: block;
   margin-bottom: 12px;
-  color: #217dbb;
+  color: #2c94da;
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -2644,19 +2653,19 @@ section.portfolio-gallery-tabs.container {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, rgba(33, 125, 187, 0.1), rgba(33, 125, 187, 0.05));
-  color: #217dbb;
+  background: linear-gradient(135deg, rgba(44, 148, 218, 0.1), rgba(44, 148, 218, 0.05));
+  color: #2c94da;
   padding: 8px 12px;
   border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 500;
-  border: 1px solid rgba(33, 125, 187, 0.2);
+  border: 1px solid rgba(44, 148, 218, 0.2);
   transition: all 0.2s ease;
 }
 .project-wrapper .tech-used .project-tech-list li:hover {
-  background: linear-gradient(135deg, rgba(33, 125, 187, 0.15), rgba(33, 125, 187, 0.1));
+  background: linear-gradient(135deg, rgba(44, 148, 218, 0.15), rgba(44, 148, 218, 0.1));
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(33, 125, 187, 0.2);
+  box-shadow: 0 2px 8px rgba(44, 148, 218, 0.2);
 }
 .project-wrapper .tech-used .project-tech-list li i {
   font-size: 1rem;
@@ -2874,7 +2883,7 @@ section.portfolio-gallery-tabs.container {
 }
 .lightbox .lightbox-prev:hover, .lightbox .lightbox-next:hover {
   background: #abafb2;
-  color: #217dbb;
+  color: #2c94da;
   transform: translateY(-50%) scale(1.1);
 }
 .lightbox .lightbox-prev:focus, .lightbox .lightbox-next:focus {
@@ -3092,7 +3101,7 @@ section.portfolio-gallery-tabs.container {
   color: indigo;
 }
 .bio-section .bio-process li strong {
-  color: #217dbb;
+  color: #2c94da;
   font-weight: 600;
   display: block;
   margin-bottom: 4px;
@@ -3168,7 +3177,7 @@ section.portfolio-gallery-tabs.container {
 }
 .bio-section .bio-skills-wrapper .skills-group h4 {
   margin-bottom: 0.5rem;
-  color: #217dbb;
+  color: #2c94da;
   font-weight: 700;
   font-size: 1.1rem;
   letter-spacing: 0.5px;
@@ -3188,7 +3197,7 @@ section.portfolio-gallery-tabs.container {
   border-radius: 4px;
   padding: 7px 14px;
   font-size: 15px;
-  color: #217dbb;
+  color: #2c94da;
   font-weight: 500;
   box-shadow: 0 1px 4px rgba(0, 115, 170, 0.07);
   border: solid 1px rgba(0, 115, 170, 0.1);
@@ -3460,7 +3469,7 @@ section.portfolio-gallery-tabs.container {
 }
 .contact-section .contact-info h2 {
   font-size: 1.5rem;
-  color: #217dbb;
+  color: #2c94da;
   margin-bottom: 12px;
   font-family: "trajan-pro-3", serif;
   font-weight: 600;
@@ -3530,7 +3539,7 @@ section.portfolio-gallery-tabs.container {
 }
 .contact-section .contact-form .form-group label {
   font-weight: 600;
-  color: #217dbb;
+  color: #2c94da;
   font-size: 15px;
   width: 100%;
 }
@@ -3580,7 +3589,7 @@ section.portfolio-gallery-tabs.container {
   margin-right: 6px;
 }
 .contact-section .contact-form .send-btn:hover {
-  background: linear-gradient(90deg, #217dbb 60%, #abafb2 100%);
+  background: linear-gradient(90deg, #2c94da 60%, #abafb2 100%);
 }
 
 @media (max-width: 900px) {

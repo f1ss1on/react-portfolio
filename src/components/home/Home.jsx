@@ -29,7 +29,16 @@ function ProgressCircle({ percent, color = "#8e24aa" }) {
   const bg = `conic-gradient(${color} ${angle}deg, #eee ${angle}deg)`;
 
   return (
-    <div className="circular-progress completed" style={{ background: bg }} ref={ref} tabIndex={0} aria-valuenow={value} aria-valuemax={100} aria-valuemin={0} role="progressbar">
+    <div
+      className="circular-progress completed"
+      style={{ background: bg }}
+      ref={ref}
+      tabIndex={0}
+      aria-valuenow={value}
+      aria-valuemax={100}
+      aria-valuemin={0}
+      role="progressbar"
+    >
       <div className="progress-value">{value}%</div>
     </div>
   );
@@ -41,12 +50,15 @@ const Home = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [modalProject, setModalProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  // Hero rotating titles
+  const TITLES = ["Front-end Developer", "React Specialist", "UI/UX Modernist"];
+  const [wordIndex, setWordIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
 
-    // Years of service calculation
-    useEffect(() => {
-      const startYear = 2009;
-      setYears(new Date().getFullYear() - startYear);
-    
+  // Years of service calculation
+  useEffect(() => {
+    const startYear = 2009;
+    setYears(new Date().getFullYear() - startYear);
 
     // Fetch latest 2 blog posts from WordPress REST API
     fetch("https://blog.riadkilani.com/wp-json/wp/v2/posts?per_page=2&_embed")
@@ -59,9 +71,12 @@ const Home = () => {
               slug: post.slug,
               title: post.title?.rendered || "",
               date: post.date,
-              excerpt: post.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() || "",
+              excerpt:
+                post.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() || "",
               link: post.link,
-              img: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/assets/images/projects/project-form.png",
+              img:
+                post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+                "/assets/images/projects/project-form.png",
             }))
           );
         }
@@ -69,6 +84,37 @@ const Home = () => {
       .catch(() => {
         // fallback: keep empty or show static posts if needed
       });
+  }, []);
+
+  // Rotate hero titles with a simple JS fade animation (respects reduced motion)
+  useEffect(() => {
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fadeDuration = 300; // ms
+    const cycleDuration = 5000; // ms
+    let intervalId;
+    let timeoutId;
+
+    if (reduceMotion) {
+      intervalId = setInterval(() => {
+        setWordIndex((i) => (i + 1) % TITLES.length);
+      }, 4000);
+    } else {
+      intervalId = setInterval(() => {
+        setVisible(false);
+        timeoutId = setTimeout(() => {
+          setWordIndex((i) => (i + 1) % TITLES.length);
+          setVisible(true);
+        }, fadeDuration);
+      }, cycleDuration);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   const openModal = (project) => {
@@ -92,7 +138,17 @@ const Home = () => {
             <img src={profileImg} alt="Riad Kilani" />
           </figure>
           <div className="hero-content">
-            <h1 id="hero-title">I am a front-end developer based in Orlando</h1>
+            <h1 id="hero-title">
+              I am a{" "}
+              <span
+                className={`hero-rotating ${visible ? "is-visible" : ""}`}
+                aria-live="polite"
+              >
+                {TITLES[wordIndex]}
+              </span>{" "}
+              <br />
+              based in Orlando
+            </h1>
             <Link to="/portfolio" title="View Portfolio" className="btn">
               View My Work
             </Link>
@@ -106,8 +162,10 @@ const Home = () => {
             <div className="about-text">
               <h2 id="about-title">About</h2>
               <p>
-                Experienced senior front-end developer with over <span>{years}</span> years in the industry. I successfully deliver websites and web applications from design to code using modern tools
-                and frameworks.
+                Experienced senior front-end developer with over{" "}
+                <span>{years}</span> years in the industry. I successfully
+                deliver websites and web applications from design to code using
+                modern tools and frameworks.
               </p>
             </div>
             <div className="progress-container" aria-label="Skill Progress">
@@ -120,7 +178,11 @@ const Home = () => {
                 <div className="label">CSS</div>
               </div>
               <div>
-                <ProgressCircle percent={92} label="JavaScript" color="#8e24aa" />
+                <ProgressCircle
+                  percent={92}
+                  label="JavaScript"
+                  color="#8e24aa"
+                />
                 <div className="label">JavaScript</div>
               </div>
             </div>
@@ -151,7 +213,11 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="hportfolio" id="hportfolio" aria-labelledby="portfolio-title">
+      <section
+        className="hportfolio"
+        id="hportfolio"
+        aria-labelledby="portfolio-title"
+      >
         <div className="container">
           <div className="port-header">
             <h2 id="portfolio-title">Featured Work</h2>
@@ -159,7 +225,12 @@ const Home = () => {
           </div>
           <div className="projects projects-grid">
             {projects.map((project, i) => (
-              <article className="card featured-project clickable-card" key={i} onClick={() => openModal(project)} tabIndex={0}>
+              <article
+                className="card featured-project clickable-card"
+                key={i}
+                onClick={() => openModal(project)}
+                tabIndex={0}
+              >
                 <figure className="card-head">
                   <div className="project-img-16x9">
                     <img src={project.img} alt={project.title} loading="lazy" />
@@ -167,7 +238,11 @@ const Home = () => {
                 </figure>
                 <div className="card-bod">
                   <h3>{project.title}</h3>
-                  <p>{project.desc.length > 120 ? project.desc.substring(0, 120) + "..." : project.desc}</p>
+                  <p>
+                    {project.desc.length > 120
+                      ? project.desc.substring(0, 120) + "..."
+                      : project.desc}
+                  </p>
                   <button className="btn view-more-btn" tabIndex={-1}>
                     View More
                   </button>
@@ -178,7 +253,10 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="blog-contact" aria-labelledby="blog-title contact-title">
+      <section
+        className="blog-contact"
+        aria-labelledby="blog-title contact-title"
+      >
         <div className="container">
           <div className="blog-contact-grid">
             <section className="blog blog-preview" aria-labelledby="blog-title">
@@ -191,7 +269,10 @@ const Home = () => {
                     <article className="hblog-snippet" key={i}>
                       <div className="blog-content">
                         <h3>
-                          <Link to={`/blog/${post.slug}`} dangerouslySetInnerHTML={{ __html: post.title }} />
+                          <Link
+                            to={`/blog/${post.slug}`}
+                            dangerouslySetInnerHTML={{ __html: post.title }}
+                          />
                         </h3>
                         <small>
                           {new Date(post.date).toLocaleDateString(undefined, {
@@ -202,10 +283,15 @@ const Home = () => {
                         </small>
                         <div className="excerpt-with-image">
                           <p>
-                            {post.excerpt} <Link to={`/blog/${post.slug}`}>Read More</Link>
+                            {post.excerpt}{" "}
+                            <Link to={`/blog/${post.slug}`}>Read More</Link>
                           </p>
                           <div className="blog-featured-image">
-                            <img src={post.img} alt={post.title} loading="lazy" />
+                            <img
+                              src={post.img}
+                              alt={post.title}
+                              loading="lazy"
+                            />
                           </div>
                         </div>
                       </div>
@@ -217,13 +303,23 @@ const Home = () => {
 
             <section className="contacth" aria-labelledby="contact-title">
               <h2 id="contact-title">Get In Touch</h2>
-              <iframe src="https://blog.riadkilani.com/shortcontact/" width="100%" height="600" frameBorder="0" title="Contact Form"></iframe>
+              <iframe
+                src="https://blog.riadkilani.com/shortcontact/"
+                width="100%"
+                height="600"
+                frameBorder="0"
+                title="Contact Form"
+              ></iframe>
             </section>
           </div>
         </div>
       </section>
 
-      <PortfolioModal modalOpen={modalOpen} modalProject={modalProject} closeModal={closeModal} />
+      <PortfolioModal
+        modalOpen={modalOpen}
+        modalProject={modalProject}
+        closeModal={closeModal}
+      />
     </div>
   );
 };
